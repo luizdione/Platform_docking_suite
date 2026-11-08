@@ -42,15 +42,13 @@
     }
   },
   "default_site": "catalytic_site",
-  "notes": "Counterpart of cruzain.",
+  "notes": "No cofactors. Human counterpart of cruzain, and the classic cross-reactivity risk for cruzain inhibitors: both are homologous cysteine proteases, so the parasite/host comparison has to be made directly.",
   "literature": "Turk 2012.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Contraparte humana da cruzaina. Comparacao direta de seletividade entre cisteino-proteases parasitaria vs hospedeiro.",
   "references": [
     "Turk et al., 2012, Biochim Biophys Acta"
-  ],
-  "name_en": "Cathepsin L"
+  ]
 }

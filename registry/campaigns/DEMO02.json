@@ -1,11 +1,11 @@
 {
   "schema_version": "2.0",
   "id": "DEMO02",
-  "sigla": "DEMO02",
-  "nome_especifico": "Exemplo: cross-docking de especificidade (sitio da colchicina)",
-  "titulo": "Reference specificity matrix -- colchicine-site ligand versus actin-binding natural products on tubulin",
+  "code": "DEMO02",
+  "name": "Example: specificity cross-docking (colchicine site)",
+  "title": "Reference specificity matrix -- colchicine-site ligand versus actin-binding natural products on tubulin",
   "status": "example",
-  "description": "Segunda campanha de EXEMPLO. Mostra para que serve o bloco `control` do par: a colchicina no sitio da colchicina da tubulina e o braco POSITIVO (deve reproduzir a pose do co-cristal 1SA0), e os produtos naturais que ligam actina, nao tubulina, sao os bracos NEGATIVOS. Sem os dois bracos, 'afinidade fraca' fica indistinguivel de 'controle que funcionou'.",
+  "description": "Second EXAMPLE campaign. It shows what the pair's `control` block is for: colchicine in the colchicine site of tubulin is the POSITIVE arm and must reproduce the pose from co-crystal 1SA0, while the natural products that bind actin rather than tubulin are the NEGATIVE arms. Without both arms, 'weak affinity' is indistinguishable from 'the control worked'.",
   "targets": [
     "tubulin_ab"
   ],
@@ -26,9 +26,9 @@
     "structure": "boltz2_5samples"
   },
   "ui": {
-    "label": "DEMO02 - matriz de especificidade (exemplo)"
+    "label": "DEMO02 - specificity matrix (example)"
   },
   "paths": {
-    "_note": "Raiz de dados vem de $DOCKING_DATA_DIR."
+    "_note": "The data root comes from $DOCKING_DATA_DIR."
   }
 }

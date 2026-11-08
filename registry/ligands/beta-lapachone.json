@@ -25,9 +25,9 @@
     },
     "gates": []
   },
-  "notes": "Produto natural do lapachol; substrato subversivo de NQO1 e TR.",
+  "notes": "Natural product derived from lapachol; subversive substrate of NQO1 and of trypanothione reductase.",
   "provenance": {
-    "generated_from": "curado a mao a partir da literatura (produto natural publicado)",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "tools/export_compound_db_to_registry.py",
     "date_added": "2026-07-04",
     "has_prepared_pdbqt": false

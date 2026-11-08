@@ -132,8 +132,8 @@ def _campaign_summaries():
             continue
         out.append({
             "id": cid,
-            "sigla": c.get("sigla", ""),
-            "titulo": c.get("titulo") or c.get("nome_especifico", ""),
+            "code": c.get("code", ""),
+            "title": c.get("title") or c.get("name", ""),
             "status": c.get("status", ""),
         })
     return out
@@ -214,8 +214,8 @@ def bootstrap_for(campaign_id=None):
         "default_ligand": default_lig_id,
         "default_ligand_name": lig_name,
         "default_ligand_smiles": lig_smiles,
-        "sigla": campaign.get("sigla", ""),
-        "titulo": campaign.get("titulo") or campaign.get("nome_especifico", ""),
+        "code": campaign.get("code", ""),
+        "title": campaign.get("title") or campaign.get("name", ""),
     }
 
 

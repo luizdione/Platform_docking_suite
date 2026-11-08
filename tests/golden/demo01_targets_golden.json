@@ -1,5 +1,5 @@
 {
-  "_note": "Snapshot dos campos que DEFINEM resultado cientifico dos alvos da campanha de exemplo. Gerado a partir de registry/targets/ -- sao entradas publicas do PDB, nenhum dado de pesquisa. Serve de gate: se um campo daqui mudar, o resultado de docking muda, e a mudanca tem de ser deliberada.",
+  "_note": "Snapshot of the fields that DEFINE the scientific result for the targets of the example campaign. Generated from registry/targets/ -- all public PDB entries, no research data. It is a gate: if a field here changes, the docking result changes, and the change must be deliberate.",
   "_generated_from": "registry/targets/*.json via docking_v2.TARGET_DB",
   "targets": {
     "LiTR": {
@@ -31,7 +31,7 @@
     "LmDHODH": {
       "pdb": "3C61",
       "organism": "Leishmania donovani",
-      "target": "Dihydroorotate Dehydrogenase",
+      "target": "Dihydroorotate Dehydrogenase (DHODH)",
       "category": "parasite",
       "keep_cofactors": [
         "FMN",
@@ -82,7 +82,7 @@
     "TcCruzain": {
       "pdb": "3KKU",
       "organism": "Trypanosoma cruzi",
-      "target": "Cruzain",
+      "target": "Cruzain (cysteine protease)",
       "category": "parasite",
       "keep_cofactors": [],
       "ligand_resnames": [
@@ -105,7 +105,7 @@
     "TcFeSOD": {
       "pdb": "4DVH",
       "organism": "Trypanosoma cruzi",
-      "target": "Fe-Superoxide Dismutase",
+      "target": "Iron Superoxide Dismutase (Fe-SOD)",
       "category": "parasite",
       "keep_cofactors": [
         "FE",
@@ -174,7 +174,7 @@
     "hDHODH": {
       "pdb": "1D3H",
       "organism": "Homo sapiens",
-      "target": "DHODH",
+      "target": "Dihydroorotate Dehydrogenase",
       "category": "human",
       "keep_cofactors": [
         "FMN"
@@ -219,7 +219,7 @@
     "hMnSOD": {
       "pdb": "1LUV",
       "organism": "Homo sapiens",
-      "target": "Mn-Superoxide Dismutase",
+      "target": "Manganese Superoxide Dismutase",
       "category": "human",
       "keep_cofactors": [
         "MN"

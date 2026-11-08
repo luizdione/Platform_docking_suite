@@ -6,17 +6,17 @@
   "ligand": "latrunculina-b",
   "assembly_state": {
     "required": "dimer",
-    "rationale": "A caixa e a do sitio da colchicina, na interface intradimero."
+    "rationale": "The box is the colchicine site, at the intradimer interface."
   },
   "experimental_kd": [],
   "engines": {
     "affinity_estimator_reliable": false,
-    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+    "_note": "Example: no measured affinity is declared for this pair, so the engine's score is not calibrated here. Declare experimental_kd[].state before treating a score as an affinity."
   },
   "control": {
     "type": "negative",
     "expected_binding": false,
-    "rationale": "Latrunculina B liga a fenda do nucleotideo da ACTINA (co-cristal 2Q0U). Sitio inexistente na tubulina."
+    "rationale": "Latrunculin B binds the nucleotide cleft of ACTIN (co-crystal 2Q0U). No such site exists on tubulin."
   },
   "protocols": {
     "docking": "vina_exh32"

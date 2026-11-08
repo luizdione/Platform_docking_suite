@@ -1,107 +1,107 @@
-# Registry declarativo
+# The declarative registry
 
-Fonte única de verdade sobre **quem** é docado, **contra o quê**, e **sob que
-protocolo**. Código lê o registry; código não contém dicionário de domínio.
+The single source of truth about **what** is docked, **against what**, and **under which
+protocol**. Code reads the registry; code contains no domain dictionary.
 
-Antes disso a plataforma tinha três dicionários de alvos que divergiam entre si
-— um deles atribuía a *TcCruzain* o PDB `3GRS`, que é glutationa redutase
-humana. O registry existe para que isso não possa voltar a acontecer.
+Before it existed, the platform had three target dictionaries that disagreed with each
+other — one of them assigned to *TcCruzain* the PDB code `3GRS`, which is human
+glutathione reductase. The registry exists so that cannot happen again.
 
-## Hierarquia
+## Hierarchy
 
 ```
 registry/
-  program.json                              guarda-chuva: identidade, defaults químicos
-  campaigns/<ID>.json                       campanha (= um estudo, = um painel)
-  targets/<id>.json                         ALVO      — global, reutilizável
-  ligands/<id>.json                         LIGANTE   — global, reutilizável
-  pairs/<CAMPANHA>__<alvo>__<ligante>.json  PAR       — escopado por campanha
-  protocols/<id>.json                       PROTOCOLO — docking, estrutura, MD
+  program.json                              umbrella: identity, chemical defaults
+  campaigns/<ID>.json                       campaign (= one study, = one panel)
+  targets/<id>.json                         TARGET   — global, reusable
+  ligands/<id>.json                         LIGAND   — global, reusable
+  pairs/<CAMPAIGN>__<target>__<ligand>.json PAIR     — scoped to a campaign
+  protocols/<id>.json                       PROTOCOL — docking, structure, MD
 ```
 
-**ALVO e LIGANTE são globais; o PAR é da campanha.** Um mesmo hGR é contra-alvo
-de seletividade num estudo e poderia ser alvo primário em outro: o alvo não
-muda, o par muda.
+**Targets and ligands are global; the pair belongs to the campaign.** The same hGR is a
+selectivity counter-target in one study and could be the primary target in another: the
+target does not change, the pair does.
 
-Foi a ausência do conceito de par que permitiu `md_simulation.py` reusar
-`cofactor_FAD_TcTR.xml` para alvos que não são flavoenzimas.
+It was the absence of the pair concept that let `md_simulation.py` reuse
+`cofactor_FAD_TcTR.xml` for targets that are not flavoenzymes.
 
-## O par é onde mora a peculiaridade
+## The pair is where the peculiarity lives
 
-Tudo que só existe *na combinação* alvo × ligante, e que antes ficava implícito
-no script, é campo obrigatório aqui:
+Everything that exists only *in the combination* of target × ligand, and that used to sit
+implicit in a script, is a required field here:
 
-| Campo | Por que é do par, não do alvo nem do ligante |
+| Field | Why it belongs to the pair, not to the target or the ligand |
 |---|---|
-| `assembly_state.required` | O sítio da jasplaquinolida só existe na junção de 3 protômeros do filamento; o da latrunculina existe no monômero. Mesmo alvo, exigências opostas. |
-| `experimental_kd[].state` | **Obrigatório.** Citocalasina D é 4,6 µM em G-actina e ~2 nM na extremidade barbada. Kd sem estado é erro de categoria. |
-| `engines.affinity_estimator_reliable` | Um estimador pode ser confiável num sistema e inútil noutro. É configuração, não suposição. |
-| `validation.training_leakage` | Se o PDB de referência é anterior ao cutoff de treino do preditor, o acerto não prova nada. |
-| `validation.verdict_rule` | Ler só o `model_0` de um co-dobramento é estatística de ordem disfarçada de resposta. |
-| `cofactor_requirement` | FAD na tripanotiona redutase e ATP/Mg na actina não são acessórios: sem eles o sítio deixa de existir. |
+| `assembly_state.required` | The jasplakinolide site exists only at the junction of three protomers of the filament; the latrunculin site exists in the monomer. Same target, opposite requirements. |
+| `experimental_kd[].state` | **Required.** Cytochalasin D is 4.6 µM on G-actin and ~2 nM at the barbed end. A Kd without its state is a category error. |
+| `engines.affinity_estimator_reliable` | An estimator can be trustworthy on one system and useless on another. That is configuration, not an assumption. |
+| `validation.training_leakage` | If the reference PDB predates the predictor's training cutoff, a hit proves nothing. |
+| `validation.verdict_rule` | Reading only `model_0` of a co-folding run is an order statistic dressed up as an answer. |
+| `cofactor_requirement` | FAD in trypanothione reductase and ATP/Mg in actin are not accessories: without them the site ceases to exist. |
 
-## Campos que mudam o comportamento do pipeline
+## Fields that change pipeline behaviour
 
-**Alvo** — `structure.source` (`pdb` \| `alphafold` \| `local`). Modelo predito
-exige `confidence.global` (pLDDT), e o registry recusa o arquivo sem isso.
-`chemistry.cofactor_source` (`crystal` \| `transferred` \| `none`); `transferred`
-exige `cofactor_transfer.{method,donor_pdb,align_scope}` — a superposição para
-transferir cofator pode precisar ser **local ao bolso**, não global, quando o
-alvo tem movimento interdomínio.
+**Target** — `structure.source` (`pdb` \| `alphafold` \| `local`). A predicted model
+requires `confidence.global` (pLDDT), and the registry refuses the file without it.
+`chemistry.cofactor_source` (`crystal` \| `transferred` \| `none`); `transferred` requires
+`cofactor_transfer.{method,donor_pdb,align_scope}` — the superposition used to transfer a
+cofactor may need to be **local to the pocket**, not global, when the target has
+interdomain motion.
 
-**Sítio** — `sites.<nome>.definition` aceita cinco modos. Três já eram
-implementados por `_calculate_grid_center()` (`ligand_center`, `metal_center`,
-`residue_center`); dois foram acrescentados para cobrir alvo sem co-cristal
-próprio (`derived_from_reference_complex`, `explicit_center`). `box_policy`
-diz se a caixa é fixa ou derivada do bounding box do ligante cristalográfico.
+**Site** — `sites.<name>.definition` accepts five modes. Three were already implemented by
+`_calculate_grid_center()` (`ligand_center`, `metal_center`, `residue_center`); two were
+added to cover a target with no co-crystal of its own
+(`derived_from_reference_complex`, `explicit_center`). `box_policy` says whether the box is
+fixed or derived from the bounding box of the crystallographic ligand.
 
-**Ligante** — `topology.is_macrocycle` obriga
-`prep.pdbqt.rigid_macrocycles: false`: um anel de 19 membros tratado como rígido
-produz pose errada por construção, sem erro. `prep.protonation.required` obriga
-`post_check`, porque a protonação falha em silêncio.
+**Ligand** — `topology.is_macrocycle` forces `prep.pdbqt.rigid_macrocycles: false`: a
+19-membered ring treated as rigid produces a wrong pose by construction, with no error.
+`prep.protonation.required` forces `post_check`, because protonation fails silently.
 
-## Uso
+## Use
 
 ```python
 import registry
 
-registry.get_target("TcTR")                  # aceita id ou alias ("1BZL", "3GRS")
-registry.resolve_site("TcTR")                # sítio default, com id resolvido
+registry.get_target("TcTR")                  # accepts id or alias ("1BZL", "3GRS")
+registry.resolve_site("TcTR")                # default site, with its id resolved
 registry.get_pair("DEMO01", "TcTR", "beta-lapachone")
-registry.resolve_protocol("DEMO01", "md", "TcTR", "beta-lapachone")   # par > campanha
+registry.resolve_protocol("DEMO01", "md", "TcTR", "beta-lapachone")   # pair > campaign
 registry.list_targets("DEMO01")
-registry.validate_all()                      # [] = tudo certo
+registry.validate_all()                      # [] = everything is fine
 ```
 
-`DOCKING_REGISTRY` sobrepõe o diretório; `DOCKING_CAMPAIGN` sobrepõe a campanha
-corrente do dashboard.
+`DOCKING_REGISTRY` overrides the directory; `DOCKING_CAMPAIGN` overrides the dashboard's
+current campaign.
 
-## Regras de escrita
+## Writing rules
 
-- **UTF-8 explícito, sempre.** Os campos `notes`/`notes_pt` carregam prosa
-  científica acentuada e o default do Windows (cp1252) corrompe em silêncio.
-- **Gerar, não transcrever.** Os alvos e ligantes vieram de
-  `tools/export_target_db_to_registry.py` e
-  `tools/export_compound_db_to_registry.py`. Transcrever 10 alvos × 12 campos à
-  mão é como nasceram os PDBs errados.
-- **Campo ausente fica ausente.** Nada de preencher com valor plausível.
+- **Explicit UTF-8, always.** `notes` fields carry scientific prose, and the Windows
+  default (cp1252) corrupts it silently.
+- **Generate, do not transcribe.** The targets and ligands came out of
+  `tools/export_target_db_to_registry.py`. Transcribing 10 targets × 12 fields by hand is
+  exactly how the wrong PDB codes were born.
+- **English.** These files are public documentation, not internal notes.
+- **A missing field stays missing.** Do not fill one in with a plausible value.
 
-## Validação
+## Validation
 
 ```bash
-python registry.py                      # resumo + validação
-python registry.py --campaign DEMO01     # alvos da campanha
-python tests/test_registry_parity.py    # gate: DEMO01 inalterado
+python registry.py                      # summary + validation
+python registry.py --campaign DEMO01    # the campaign's targets
+python -m pytest tests/test_registry_parity.py
 ```
 
-`validate_all()` é um validador próprio, sem dependência dura de `jsonschema`
-(que não está em `requirements.txt`). Se `jsonschema` estiver instalado e houver
-arquivos em `registry/_schema/`, eles são usados como checagem adicional.
+`validate_all()` is a hand-written validator, deliberately: `jsonschema` is not in
+`requirements.txt`, and the Windows/conda environment is fragile enough already. If
+`jsonschema` happens to be installed and `registry/_schema/` holds files, they are used as
+an additional check.
 
-## Ponte com o código legado
+## Bridge to legacy code
 
-`registry.as_legacy_target_db(campaign)` projeta o registry na forma do antigo
-`docking_v2.TARGET_DB`, com os mesmos tipos — inclusive `grid_size` como
-**tupla**, porque uma lista desempacota igual e a regressão passaria
-despercebida em runtime. `docking_v2.load_target_db()` a consome e cai num
-fallback embutido, ruidosamente, se o registry sumir.
+`registry.as_legacy_target_db(campaign)` projects the registry into the shape of the old
+`docking_v2.TARGET_DB`, with the same types — including `grid_size` as a **tuple**, because
+a list unpacks identically (`sx, sy, sz = grid_size`) and the regression would pass
+unnoticed at runtime. `docking_v2.load_target_db()` consumes it and falls back, loudly, to
+an embedded table if the registry disappears.

@@ -20,9 +20,11 @@
     "alternative_pdb_ids": [
       "3GRS"
     ],
-    "_alt_note": "3GRS e outra estrutura de glutationa redutase humana, citada no texto do dashboard ('3DJJ/3GRS'). O docking do DEMO01 usou 3DJJ. Registrada aqui para que uma busca por 3GRS resolva para hGR -- e nao para o alvo errado, como acontecia no fallback de alvos, onde 3GRS estava atribuido a TcCruzain.",
-    "cofactor_copies": {"FAD": 1},
-    "_cofactor_copies_note": "1 FAD (nao 2): o 3DJJ_clean.pdb usado na MD e monomerico, enquanto TcTR/LiTR (1BZL/2JK6) tem 2 FADs no arquivo. Valor curado, migrado do antigo md_simulation.TARGET_MAP; NAO derivar de n_protomers (daria 2 e mudaria a MD do hGR)."
+    "_alt_note": "3GRS is another human glutathione reductase structure, and appears in the dashboard text as '3DJJ/3GRS'. The example campaign docks 3DJJ. The alias is registered here so that a lookup for 3GRS resolves to hGR and not to some other target -- in an older hardcoded target table 3GRS had been assigned to a parasite cysteine protease, which is the kind of error this registry exists to make impossible.",
+    "cofactor_copies": {
+      "FAD": 1
+    },
+    "_cofactor_copies_note": "1 FAD, not 2: the 3DJJ structure used here is monomeric, whereas TcTR/LiTR (1BZL/2JK6) deposit 2 chains and therefore 2 flavins. The count matters when preparing the receptor: dropping a cofactor that the site needs is the quiet way to lose the pocket."
   },
   "chemistry": {
     "keep_cofactors": [
@@ -57,15 +59,13 @@
     }
   },
   "default_site": "orthosteric",
-  "notes": "FAD essential. Counterpart of TR.",
+  "notes": "FAD essential. Human counterpart of trypanothione reductase: same reaction on a different thiol, glutathione instead of trypanothione. Its active site is narrower, and that difference in architecture is the molecular basis of any selectivity claim -- which is why the platform docks the parasite enzyme and this one under the same protocol.",
   "literature": "Karplus & Schulz 1987.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Contraparte humana da tripanotiona redutase. Usa glutationa em vez de tripanotiona. Diferenca estrutural no sitio ativo (mais estreito) e a base molecular da seletividade.",
   "references": [
     "Karplus & Schulz, 1987, J Mol Biol"
-  ],
-  "name_en": "Glutathione Reductase"
+  ]
 }

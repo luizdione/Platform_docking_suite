@@ -4,7 +4,7 @@
   "aliases": [
     "4DVH"
   ],
-  "name": "Fe-Superoxide Dismutase",
+  "name": "Iron Superoxide Dismutase (Fe-SOD)",
   "organism": "Trypanosoma cruzi",
   "category": "parasite",
   "ortholog_of": "hMnSOD",
@@ -49,15 +49,13 @@
     }
   },
   "default_site": "metal_active_site",
-  "notes": "Fe is ESSENTIAL. Apo structure - grid on Fe active site.",
+  "notes": "Fe is ESSENTIAL: in a metalloenzyme the metal IS the active site. Apo structure, so the grid is centred on the Fe site. Principal defence against superoxide in the parasite, and absent in humans, who use Cu/Zn-SOD and Mn-SOD. Inhibiting it compounds the oxidative damage caused by a pro-oxidant ligand, which is what makes it of interest for quinones.",
   "literature": "Mateo 2008.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Diretamente relacionada ao estresse oxidativo. Fe-SOD e a principal defesa contra O2.- no parasito. Ausente em humanos (que usam Cu/Zn-SOD e Mn-SOD). Inibicao potencializa dano oxidativo de composto pro-oxidante - alvo de interesse para quinonas.",
   "references": [
     "Mateo et al., 2008, Mol Biochem Parasitol"
-  ],
-  "name_en": "Iron Superoxide Dismutase (Fe-SOD)"
+  ]
 }

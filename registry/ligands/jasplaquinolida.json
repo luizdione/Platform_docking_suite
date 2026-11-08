@@ -8,7 +8,7 @@
   "mw_g_mol": 709.67,
   "heavy_atoms": null,
   "charge": 0,
-  "class": "macrociclo natural (droga do citoesqueleto)",
+  "class": "natural macrocycle (cytoskeletal drug)",
   "chemotype_tags": [
     "cytoskeleton_drug",
     "macrocycle"
@@ -37,14 +37,14 @@
     },
     "gates": []
   },
-  "notes": "Macrociclo da esponja Jaspis splendens que estabiliza F-actina e nucleia polimerizacao. O sitio fica na juncao de tres protomeros do filamento, e por isso nao existe no monomero. Co-cristal de referencia: 7PM3 (CCD 9UE).",
+  "notes": "Macrocycle from the sponge Jaspis splendens that stabilises F-actin and nucleates polymerisation. Its site lies at the junction of three protomers of the filament, which is why it does not exist in the monomer. Reference co-crystal: 7PM3 (CCD 9UE).",
   "ccd": "9UE",
   "reference_pdb": "7PM3",
   "reference_resolution_A": 3.1,
   "provenance": {
     "mode": "ingested",
     "reproducible": false,
-    "generated_from": "curado a mao a partir da literatura e do co-cristal citado",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "tools/ingest_campaign.py"
   }
 }

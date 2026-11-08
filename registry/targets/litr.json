@@ -16,7 +16,9 @@
     "local_file": null,
     "confidence": null,
     "resolution_A": "2.95 A",
-    "cofactor_copies": {"FAD": 2}
+    "cofactor_copies": {
+      "FAD": 2
+    }
   },
   "chemistry": {
     "keep_cofactors": [
@@ -52,15 +54,13 @@
     }
   },
   "default_site": "orthosteric",
-  "notes": "NO crystal structure exists for L. amazonensis TR. 2JK6 (L. infantum) is the standard proxy (95% identity). Camargo et al. (Sci Rep, 2023) used this approach for L. amazonensis. FAD is ESSENTIAL - grid centered on flavin ring near active site.",
+  "notes": "NO crystal structure exists for L. amazonensis TR. 2JK6 (L. infantum) is the standard proxy at ~95% sequence identity; Camargo et al. (Sci Rep, 2023) used the same approach. That substitution is a modelling decision, not a fact. FAD is ESSENTIAL -- grid centred on the flavin ring near the active site. Leishmania ortholog of TcTR, same mechanism, which lets one run compare T. cruzi and Leishmania side by side in the same panel.",
   "literature": "Baiocco 2009; Camargo/Sci Rep 2023 for L. amazonensis.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Ortologo da TcTR em Leishmania. Mesmo mecanismo - essencial para manutencao do sistema tiol-dependente. Permite comparacao direta T. cruzi vs Leishmania no mesmo painel.",
   "references": [
     "Baiocco et al., 2009, Structure"
-  ],
-  "name_en": "Trypanothione Reductase"
+  ]
 }

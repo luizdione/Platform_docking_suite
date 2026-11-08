@@ -16,7 +16,9 @@
     "local_file": null,
     "confidence": null,
     "resolution_A": "2.40 A",
-    "cofactor_copies": {"FAD": 2}
+    "cofactor_copies": {
+      "FAD": 2
+    }
   },
   "chemistry": {
     "keep_cofactors": [
@@ -51,15 +53,13 @@
     }
   },
   "default_site": "orthosteric",
-  "notes": "FAD is ESSENTIAL. Grid centered on trypanothione binding site.",
+  "notes": "FAD is ESSENTIAL: the catalytic site forms on the flavin face, so a receptor prepared without it has a cavity, not a pocket. Grid centred on the trypanothione binding site. Classic, well validated target, absent in mammals (which use glutathione reductase instead). Inhibiting it compromises the parasite's thiol-dependent antioxidant defence, which is why it is the usual entry point for redox-active compounds.",
   "literature": "Krauth-Siegel 2003; PDB has FAD + TS2 co-crystal.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Alvo classico e validado. Ausente em mamiferos (humanos usam glutationa redutase). Diretamente coerente com dados de estresse oxidativo - inibicao da TcTR compromete defesa antioxidante tiol-dependente do parasito, explicando aumento de ROS.",
   "references": [
     "Krauth-Siegel et al., 2003, Antioxid Redox Signal"
-  ],
-  "name_en": "Trypanothione Reductase"
+  ]
 }

@@ -8,7 +8,7 @@
   "mw_g_mol": 395.513,
   "heavy_atoms": null,
   "charge": 0,
-  "class": "macrociclo natural (droga do citoesqueleto)",
+  "class": "natural macrocycle (cytoskeletal drug)",
   "chemotype_tags": [
     "cytoskeleton_drug",
     "macrocycle"
@@ -36,14 +36,14 @@
     },
     "gates": []
   },
-  "notes": "Analogo da latrunculina A, mesmo sitio na fenda do nucleotideo da actina monomerica. Co-cristal de referencia: 2Q0U (CCD LAB), de resolucao melhor que o da latrunculina A. Macrociclo: 11 torsoes ativas, abaixo do gate padrao da plataforma (GATE_MIN_TORSIONS=15 em runner.py). O anel e rigido, e o gate generico nao se aplica a ele sem ajuste explicito no par.",
+  "notes": "Analogue of latrunculin A at the same site in the nucleotide cleft of monomeric actin. Reference co-crystal: 2Q0U (CCD LAB), at better resolution than the latrunculin A structure. Macrocycle: 11 active torsions, below the platform's default gate (GATE_MIN_TORSIONS=15 in runner.py). The ring is rigid, so the generic gate does not apply to it without an explicit override on the pair.",
   "ccd": "LAB",
   "reference_pdb": "2Q0U",
   "reference_resolution_A": 1.45,
   "provenance": {
     "mode": "ingested",
     "reproducible": false,
-    "generated_from": "curado a mao a partir da literatura e do co-cristal citado",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "tools/ingest_campaign.py"
   }
 }

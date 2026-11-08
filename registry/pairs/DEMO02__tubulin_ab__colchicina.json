@@ -6,27 +6,27 @@
   "ligand": "colchicina",
   "assembly_state": {
     "required": "dimer",
-    "rationale": "O sitio da colchicina fica na interface intradimero alfa/beta: nao existe no monomero."
+    "rationale": "The colchicine site lies at the alpha/beta intradimer interface: it does not exist in the monomer."
   },
   "experimental_kd": [],
   "engines": {
     "affinity_estimator_reliable": false,
-    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+    "_note": "Example: no measured affinity is declared for this pair, so the engine's score is not calibrated here. Declare experimental_kd[].state before treating a score as an affinity."
   },
   "validation": {
     "rmsd_function": "CalcRMS",
     "reference_pdb": "1SA0",
     "reference_ligand_resname": "CN2",
-    "verdict_rule": "Redocking valido quando a melhor pose entre as geradas fica abaixo de 2,0 A de RMSD da pose cristalografica. Ler so o model_0 e estatistica de ordem disfarcada de resposta.",
+    "verdict_rule": "Redocking is valid when the best pose among those generated falls below 2.0 A RMSD from the crystallographic pose. Reading model_0 alone is an order statistic dressed up as an answer.",
     "training_leakage": {
       "held_out": false,
-      "rationale": "1SA0 foi depositado em 2004 e esta no treino de qualquer preditor atual. Para redocking classico (Vina) isso e irrelevante; para co-dobramento o acerto nao prova generalizacao."
+      "rationale": "1SA0 was deposited in 2004 and is in the training set of any current predictor. For classical redocking (Vina) that is irrelevant; for co-folding, a hit proves nothing about generalisation."
     }
   },
   "control": {
     "type": "positive",
     "expected_binding": true,
-    "rationale": "A colchicina liga o sitio da colchicina -- e o co-cristal 1SA0 (analogo DAMA-colchicina, CN2). Braco positivo: se nem este par reproduz a pose, a caixa ou a preparacao estao erradas e nenhum negativo significa nada."
+    "rationale": "Colchicine binds the colchicine site -- that is co-crystal 1SA0 (the DAMA-colchicine analogue, CN2). Positive arm: if even this pair fails to reproduce the pose, the box or the preparation is wrong and no negative result means anything."
   },
   "protocols": {
     "docking": "vina_exh32"

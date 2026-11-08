@@ -6,19 +6,19 @@
   "ligand": "plumbagin",
   "assembly_state": {
     "required": "monomer",
-    "rationale": "O sitio metalico esta inteiro no protomero; o estado oligomerico biologico nao muda a geometria do bolso."
+    "rationale": "The metal site is complete within the protomer; the biological oligomeric state does not change the geometry of the pocket."
   },
   "cofactor_requirement": {
     "required": true,
     "resnames": [
       "MN"
     ],
-    "rationale": "Superoxido dismutase de manganes: o metal E o sitio ativo."
+    "rationale": "Manganese superoxide dismutase: the metal IS the active site."
   },
   "experimental_kd": [],
   "engines": {
     "affinity_estimator_reliable": false,
-    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+    "_note": "Example: no measured affinity is declared for this pair, so the engine's score is not calibrated here. Declare experimental_kd[].state before treating a score as an affinity."
   },
   "protocols": {
     "docking": "vina_exh32"

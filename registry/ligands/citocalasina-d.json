@@ -8,7 +8,7 @@
   "mw_g_mol": 507.618,
   "heavy_atoms": null,
   "charge": 0,
-  "class": "macrociclo natural (droga do citoesqueleto)",
+  "class": "natural macrocycle (cytoskeletal drug)",
   "chemotype_tags": [
     "cytoskeleton_drug",
     "macrocycle"
@@ -37,14 +37,14 @@
     },
     "gates": []
   },
-  "notes": "Macrolideo de Zygosporium masonii que liga a fenda entre os subdominios 1 e 3 da actina (extremidade barbada), bloqueando elongacao e capeando o filamento. Co-cristal de referencia: 3EKS (CCD CY9). Macrociclo: 13 torsoes ativas, abaixo do gate padrao da plataforma (GATE_MIN_TORSIONS=15 em runner.py). O anel e rigido, e o gate generico nao se aplica a ele sem ajuste explicito no par.",
+  "notes": "Macrolide from Zygosporium masonii that binds the cleft between actin subdomains 1 and 3 (the barbed end), blocking elongation and capping the filament. Reference co-crystal: 3EKS (CCD CY9). Macrocycle: 13 active torsions, below the platform's default gate (GATE_MIN_TORSIONS=15 in runner.py). The ring is rigid, so the generic gate does not apply to it without an explicit override on the pair.",
   "ccd": "CY9",
   "reference_pdb": "3EKS",
   "reference_resolution_A": 1.8,
   "provenance": {
     "mode": "ingested",
     "reproducible": false,
-    "generated_from": "curado a mao a partir da literatura e do co-cristal citado",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "tools/ingest_campaign.py"
   }
 }

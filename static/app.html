@@ -4348,7 +4348,7 @@ async function labLoadConfig(campaign){
 
     var camp = cfg.campaign||{};
     document.getElementById('labCampaignInfo').textContent =
-      (camp.titulo||camp.nome_especifico||'') + '  ·  ' + (camp.status||'—');
+      (camp.title||camp.name||'') + '  ·  ' + (camp.status||'—');
 
     var tsel = document.getElementById('labTarget'); tsel.innerHTML='';
     (cfg.targets||[]).forEach(function(t){

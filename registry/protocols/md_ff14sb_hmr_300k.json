@@ -3,7 +3,9 @@
   "id": "md_ff14sb_hmr_300k",
   "engine": "openmm",
   "name": "OpenMM/CUDA, ff14SB + TIP3P, HMR 4 fs, 300 K",
-  "capabilities": ["dynamics"],
+  "capabilities": [
+    "dynamics"
+  ],
   "forcefield": {
     "protein": "amber14-all.xml",
     "water": "amber14/tip3p.xml",
@@ -17,19 +19,33 @@
     "hmr_factor_amu": 4.0,
     "friction_ps": 1.0
   },
-  "thermostat": { "T_K": 300 },
-  "barostat": { "type": "MonteCarlo", "P_bar": 1.0 },
+  "thermostat": {
+    "T_K": 300
+  },
+  "barostat": {
+    "type": "MonteCarlo",
+    "P_bar": 1.0
+  },
   "solvent": {
     "model": "tip3p",
     "padding_A": 10,
     "electrostatics": "PME",
     "ions_mM": 150
   },
-  "reporting": { "dcd_interval_steps": 2500, "ps_per_frame": 10 },
+  "reporting": {
+    "dcd_interval_steps": 2500,
+    "ps_per_frame": 10
+  },
   "schedule": [
-    { "stage": "minimize" },
-    { "stage": "production", "ns": 50, "replicas": 3 }
+    {
+      "stage": "minimize"
+    },
+    {
+      "stage": "production",
+      "ns": 50,
+      "replicas": 3
+    }
   ],
-  "notes": "Protocolo de MD para flavoenzima solvatada: ff14SB + TIP3P com hydrogen-mass repartitioning, passo de 4 fs a 300 K. Para alvo com cofator nucleotidico (ATP/ADP/Mg) use md_charmm36m_2fs_310k -- ff14SB nao tem templates nativos desses residuos.",
+  "notes": "MD protocol for a solvated flavoenzyme: ff14SB + TIP3P with hydrogen-mass repartitioning, 4 fs timestep at 300 K. For a target with a nucleotide cofactor (ATP/ADP/Mg) use md_charmm36m_2fs_310k instead -- ff14SB has no native templates for those residues.",
   "literature": "Eastman et al. 2017 (OpenMM 7); Maier et al. 2015 (ff14SB)."
 }

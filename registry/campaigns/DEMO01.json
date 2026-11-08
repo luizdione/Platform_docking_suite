@@ -1,11 +1,11 @@
 {
   "schema_version": "2.0",
   "id": "DEMO01",
-  "sigla": "DEMO01",
-  "nome_especifico": "Exemplo: triagem de seletividade antiparasitaria",
-  "titulo": "Reference screen -- published antiparasitic naphthoquinones against trypanosomatid enzymes and their human counterparts",
+  "code": "DEMO01",
+  "name": "Example: antiparasitic selectivity screen",
+  "title": "Reference screen -- published antiparasitic naphthoquinones against trypanosomatid enzymes and their human counterparts",
   "status": "example",
-  "description": "Campanha de EXEMPLO, distribuida com a plataforma. Usa apenas alvos de PDB publicos e ligantes de referencia publicados, para que o repositorio seja executavel sem nenhum dado de pesquisa. Demonstra o padrao central da plataforma: cada enzima do parasito e docada ao lado da contraparte humana, e a seletividade e lida da diferenca.",
+  "description": "EXAMPLE campaign, shipped with the platform. It uses only public PDB targets and published reference compounds, so the repository is runnable without any research data. It demonstrates the platform's central pattern: each parasite enzyme is docked alongside its human counterpart, and selectivity is read from the difference.",
   "targets": [
     "TcTR",
     "LiTR",
@@ -44,8 +44,8 @@
     "restraint_docking": "haddock3_default"
   },
   "ui": {
-    "label": "DEMO01 - triagem antiparasitaria (exemplo)",
-    "pares_de_seletividade": [
+    "label": "DEMO01 - antiparasitic screen (example)",
+    "selectivity_pairs": [
       [
         "TcTR",
         "hGR"
@@ -69,6 +69,6 @@
     ]
   },
   "paths": {
-    "_note": "Sem data_root declarado de proposito: a raiz vem de $DOCKING_DATA_DIR. Resultado nao mora no repositorio."
+    "_note": "No data_root declared, deliberately: the root comes from $DOCKING_DATA_DIR. Results do not live in the repository."
   }
 }

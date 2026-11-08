@@ -4,7 +4,7 @@
   "aliases": [
     "1LUV"
   ],
-  "name": "Mn-Superoxide Dismutase",
+  "name": "Manganese Superoxide Dismutase",
   "organism": "Homo sapiens",
   "category": "human",
   "ortholog_of": null,
@@ -47,15 +47,13 @@
     }
   },
   "default_site": "metal_active_site",
-  "notes": "Mn essential. Counterpart of Fe-SOD.",
+  "notes": "Mn essential. Human counterpart of T. cruzi Fe-SOD: manganese instead of iron as cofactor, a difference in the metal site that leaves room for selectivity. The Fe-SOD vs Mn-SOD comparison is standard in the literature.",
   "literature": "Borgstahl 1992.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Contraparte humana da Fe-SOD de T. cruzi. Usa Mn em vez de Fe como cofator - diferenca no sitio ativo permite seletividade. Comparacao Fe-SOD vs MnSOD e classica.",
   "references": [
     "Borgstahl et al., 1992, Cell"
-  ],
-  "name_en": "Manganese Superoxide Dismutase"
+  ]
 }

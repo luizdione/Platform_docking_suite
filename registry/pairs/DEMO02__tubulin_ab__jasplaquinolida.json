@@ -6,17 +6,17 @@
   "ligand": "jasplaquinolida",
   "assembly_state": {
     "required": "dimer",
-    "rationale": "A caixa e a do sitio da colchicina, na interface intradimero."
+    "rationale": "The box is the colchicine site, at the intradimer interface."
   },
   "experimental_kd": [],
   "engines": {
     "affinity_estimator_reliable": false,
-    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+    "_note": "Example: no measured affinity is declared for this pair, so the engine's score is not calibrated here. Declare experimental_kd[].state before treating a score as an affinity."
   },
   "control": {
     "type": "negative",
     "expected_binding": false,
-    "rationale": "Jasplaquinolida liga a juncao de tres protomeros da F-ACTINA (co-cristal 7PM3). Sitio inexistente na tubulina."
+    "rationale": "Jasplakinolide binds the junction of three protomers of F-ACTIN (co-crystal 7PM3). No such site exists on tubulin."
   },
   "protocols": {
     "docking": "vina_exh32"

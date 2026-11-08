@@ -2,24 +2,32 @@
   "schema_version": "2.0",
   "id": "haddock3_default",
   "engine": "haddock3",
-  "name": "HADDOCK3, docking guiado por restricoes ambiguas",
-  "capabilities": ["pose"],
+  "name": "HADDOCK3, docking guided by ambiguous interaction restraints",
+  "capabilities": [
+    "pose"
+  ],
   "params": {
-    "modules": ["topoaa", "rigidbody", "caprieval", "flexref", "emref"],
+    "modules": [
+      "topoaa",
+      "rigidbody",
+      "caprieval",
+      "flexref",
+      "emref"
+    ],
     "sampling_rigidbody": 1000,
     "select_rigidbody": 200,
     "select_flexref": 50
   },
   "restraints": {
     "source": "target_site",
-    "_note": "O ambig.tbl passa a ser GERADO a partir de sites.*.fallback_residues / contatos derivados do complexo de referencia, em vez de escrito a mao por alvo.",
+    "_note": "ambig.tbl is GENERATED from sites.*.fallback_residues or from contacts derived from the reference complex, instead of being written by hand per target.",
     "passive_from_active": true
   },
   "score": {
     "unit": "HADDOCK score (a.u.)",
     "direction": "lower_is_better",
-    "_note": "Nao e kcal/mol e nao e comparavel com o score do Vina. Nunca ranquear os dois na mesma tabela."
+    "_note": "This is not kcal/mol and is not comparable with the Vina score. Never rank the two in the same table."
   },
-  "notes": "Docking guiado por restricoes ambiguas de interface (AIR). Util quando o sitio nao e uma cavidade fechada que o Vina resolva bem: juncao interprotomero de filamento, interface de dimero, ou sitio definido por residuos catalticos conhecidos em vez de co-cristal.",
+  "notes": "Docking guided by ambiguous interaction restraints (AIR). Useful when the site is not an enclosed cavity that Vina resolves well: a protomer junction in a filament, a dimer interface, or a site defined by known catalytic residues rather than by a co-crystal.",
   "literature": "Honorato et al. 2024 (HADDOCK3)."
 }

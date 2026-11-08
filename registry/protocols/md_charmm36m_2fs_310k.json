@@ -2,8 +2,10 @@
   "schema_version": "2.0",
   "id": "md_charmm36m_2fs_310k",
   "engine": "openmm",
-  "name": "OpenMM/CUDA, CHARMM36m + TIP3P, 2 fs sem HMR, 310 K",
-  "capabilities": ["dynamics"],
+  "name": "OpenMM/CUDA, CHARMM36m + TIP3P, 2 fs without HMR, 310 K",
+  "capabilities": [
+    "dynamics"
+  ],
   "forcefield": {
     "protein": "charmm36.xml",
     "water": "charmm36/water.xml",
@@ -17,26 +19,48 @@
     "constraints": "HBonds",
     "friction_ps": 1.0
   },
-  "thermostat": { "T_K": 310 },
-  "barostat": { "type": "MonteCarlo", "P_bar": 1.0 },
+  "thermostat": {
+    "T_K": 310
+  },
+  "barostat": {
+    "type": "MonteCarlo",
+    "P_bar": 1.0
+  },
   "solvent": {
     "model": "tip3p",
     "padding_A": 10,
     "electrostatics": "PME",
     "ions_mM": 150,
-    "ion_naming": { "magnesium": "MG", "calcium": "CAL", "chloride": "CLA", "sodium": "SOD", "potassium": "POT" }
+    "ion_naming": {
+      "magnesium": "MG",
+      "calcium": "CAL",
+      "chloride": "CLA",
+      "sodium": "SOD",
+      "potassium": "POT"
+    }
   },
   "schedule": [
-    { "stage": "minimize" },
-    { "stage": "screen", "ns": 20, "replicas": 1 },
-    { "stage": "production", "ns": 100, "replicas": 3, "condition": "estavel na triagem" }
+    {
+      "stage": "minimize"
+    },
+    {
+      "stage": "screen",
+      "ns": 20,
+      "replicas": 1
+    },
+    {
+      "stage": "production",
+      "ns": 100,
+      "replicas": 3,
+      "condition": "estavel na triagem"
+    }
   ],
   "rationale": {
-    "forcefield": "CHARMM36m tem templates nativos de ATP/ADP/MG/CAL; ff14SB nao. Um alvo cujo cofator nucleotidico e obrigatorio (actina) nao pode usar o protocolo do DEMO01.",
-    "temperature": "310 K e nao 300 K: o sitio da faloidina em F-actina so abre em flutuacoes raras (Voth 2025); 300 K subamostra o evento de interesse.",
-    "timestep": "2 fs com constraints e sem HMR: nao ha estudo de F-actina validando HMR a 4 fs. Escolha conservadora deliberada.",
-    "divergencia": "Diverge do md_ff14sb_hmr_300k do DEMO01 por razao cientifica, nao por descuido. Os dois protocolos coexistem; nenhum corrige o outro."
+    "forcefield": "CHARMM36m has native templates for ATP/ADP/MG/CAL; ff14SB does not. A target whose nucleotide cofactor is mandatory cannot use the ff14SB protocol: a run that silently drops the nucleotide has lost the site.",
+    "temperature": "310 K rather than 300 K: in F-actin the phalloidin site opens only in rare fluctuations (Voth 2025), and 300 K undersamples the event of interest.",
+    "timestep": "2 fs with constraints and no HMR: there is no F-actin study validating HMR at 4 fs. A deliberately conservative choice.",
+    "divergence": "This diverges from md_ff14sb_hmr_300k for a scientific reason, not by oversight. The two protocols coexist; neither corrects the other."
   },
-  "notes": "Protocolo travado apos auditoria metodologica na campanha de actina. Ainda NAO executado -- e o primeiro teste real de protocolo por campanha.",
-  "literature": "Huang et al. 2017 (CHARMM36m); Voth 2025 (F-actina, abertura do sitio)."
+  "notes": "Protocol for a target whose nucleotide cofactor is mandatory. Not exercised by the example campaigns -- it is here as the second protocol, so that choosing one is an explicit decision rather than a default nobody looked at.",
+  "literature": "Huang et al. 2017 (CHARMM36m); Voth 2025 (F-actin, site opening)."
 }

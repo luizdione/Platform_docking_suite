@@ -56,15 +56,13 @@
     }
   },
   "default_site": "orthosteric",
-  "notes": "NADPH is ESSENTIAL - it forms part of the active site. 2QHX has co-crystal with pteridine inhibitor (best for grid). Alternative: 1E7W (methotrexate complex).",
+  "notes": "NADPH is ESSENTIAL -- it forms part of the active site, not an accessory. 2QHX has a co-crystal with a pteridine inhibitor, which is the best reference for placing the grid; 1E7W (methotrexate complex) is an alternative. Validated target with good crystallography, essential for pteridine and folate metabolism. It bypasses the DHFR route, which is how the parasite resists antifolates. Several inhibitor co-structures are available for protocol validation.",
   "literature": "Gourley 2001; Dawson 2006; Hardy 2005.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Alvo validado com excelentes estruturas cristalograficas. Essencial para metabolismo de pteridinas/folatos. Bypass da via DHFR - resistencia a antifolatos. Varias co-estruturas com inibidores disponiveis para validacao do protocolo.",
   "references": [
     "Gourley et al., 2001, Nat Struct Biol"
-  ],
-  "name_en": "Pteridine Reductase 1 (PTR1)"
+  ]
 }

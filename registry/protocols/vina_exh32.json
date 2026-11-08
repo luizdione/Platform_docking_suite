@@ -3,7 +3,10 @@
   "id": "vina_exh32",
   "engine": "vina",
   "name": "AutoDock Vina, exhaustiveness 32",
-  "capabilities": ["pose", "affinity"],
+  "capabilities": [
+    "pose",
+    "affinity"
+  ],
   "params": {
     "exhaustiveness": 32,
     "num_modes": 10,
@@ -14,6 +17,6 @@
     "unit": "kcal/mol",
     "direction": "lower_is_better"
   },
-  "notes": "Default historico da plataforma (docking_v2.run_docking). seed null = nao deterministico; defina um inteiro quando a reprodutibilidade exata importar mais que a amostragem independente.",
+  "notes": "The platform's default docking protocol (consumed by docking_v2.run_docking). seed null = not deterministic; set an integer when exact reproducibility matters more than independent sampling.",
   "literature": "Eberhardt et al. 2021, J Chem Inf Model (AutoDock Vina 1.2.0)."
 }

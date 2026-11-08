@@ -6,19 +6,19 @@
   "ligand": "beta-lapachone",
   "assembly_state": {
     "required": "monomer",
-    "rationale": "O sitio ortosterico da redutase e lido no protomero depositado em 1BZL/2JK6/3DJJ; o docking corre sobre a cadeia com o FAD."
+    "rationale": "The orthosteric site of the reductase is read on the protomer deposited in 1BZL/2JK6/3DJJ; docking runs on the chain that carries the FAD."
   },
   "cofactor_requirement": {
     "required": true,
     "resnames": [
       "FAD"
     ],
-    "rationale": "Flavoenzima: o sitio catalitico se forma na face do FAD. Sem o cofator o bolso deixa de existir."
+    "rationale": "Flavoenzyme: the catalytic site forms on the face of the FAD. Without the cofactor the pocket ceases to exist."
   },
   "experimental_kd": [],
   "engines": {
     "affinity_estimator_reliable": false,
-    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+    "_note": "Example: no measured affinity is declared for this pair, so the engine's score is not calibrated here. Declare experimental_kd[].state before treating a score as an affinity."
   },
   "protocols": {
     "docking": "vina_exh32",

@@ -5,14 +5,14 @@
     "1SA0",
     "tubulin_alphabeta"
   ],
-  "name": "Tubulina alfa/beta (heterodimero) -- sitio da colchicina",
+  "name": "Alpha/beta tubulin heterodimer -- colchicine site",
   "organism": "Bos taurus (tubulina) + Rattus norvegicus (stathmin RB3) -- co-cristal 1SA0",
   "category": "counter_target",
   "ortholog_of": null,
   "structure": {
     "source": "pdb",
     "pdb_id": "1SA0",
-    "assembly": "heterodimero alfa/beta-tubulina (sitio colchicina). O modelo 1SA0 contem 2 heterodimeros (A/B e C/D) + stathmin RB3 (cadeia E)",
+    "assembly": "alpha/beta-tubulin heterodimer (colchicine site). Model 1SA0 holds 2 heterodimers (A/B and C/D) plus stathmin RB3 (chain E)",
     "n_protomers_required": 2,
     "local_file": null,
     "confidence": {},
@@ -51,7 +51,7 @@
         22.5
       ],
       "box_policy": "native_ligand_bbox_plus_padding",
-      "site_topology": "interface intradimero alfa/beta (sitio da colchicina)",
+      "site_topology": "alpha/beta intradimer interface (colchicine site)",
       "geometric_validation": {
         "frac_contact_4.5A": 0.97,
         "immersion_mean_A": 3.65,
@@ -60,13 +60,13 @@
         "chosen_copy": "D701",
         "verdict": "center_ok",
         "method": "site_derivation.validate_embedded_ligand",
-        "note": "Centro = posicao NATIVA do analogo de colchicina CN2 (DAMA-colchicina) no co-cristal 1SA0, copia mais imersa (cadeia D, beta-tubulina). Receptor = 1SA0 inteiro (2 heterodimeros + stathmin RB3; a stathmin fica LONGE do sitio da colchicina -- caixa local ~24 A nao a alcanca). Braco POSITIVO do controle: colchicina redocada aqui deve reproduzir a pose (RMSD baixo)."
+        "note": "Centre = the NATIVE position of the colchicine analogue CN2 (DAMA-colchicine) in co-crystal 1SA0, taking the most buried copy (chain D, beta-tubulin). Receptor = the whole of 1SA0 (2 heterodimers + stathmin RB3; the stathmin sits far from the colchicine site, so a local box of ~24 A does not reach it). POSITIVE arm of the control: colchicine redocked here must reproduce the pose (low RMSD)."
       },
-      "notes": "Sitio da colchicina na interface intradimero alfa/beta. Controle de especificidade: colchicina AQUI = deve ligar (positivo); drogas de actina AQUI = nao devem ligar (negativo)."
+      "notes": "Colchicine site at the alpha/beta intradimer interface. Specificity control: colchicine HERE must bind (positive); actin-binding drugs HERE must not (negative)."
     }
   },
   "default_site": "colchicina",
-  "notes": "Estrutura experimental 1SA0 (Ravelli et al. 2004, Nature) -- tubulina + DAMA-colchicina + stathmin RB3. Escolhida em vez do taxol/1JFF porque a colchicina liga o DIMERO ISOLADO (nao apenas o microtubulo montado) e tem dados de afinidade limpos, alem de ser molecula rigida -- o que faz dela um controle de docking melhor. Prep de receptor: manter os 2 heterodimeros + cofatores (GTP/GDP/Mg); a stathmin (cadeia E) pode ser removida em refino, pois nao toca o sitio.",
+  "notes": "Experimental structure 1SA0 (Ravelli et al. 2004, Nature) -- tubulin + DAMA-colchicine + stathmin RB3. Chosen over taxol/1JFF because colchicine binds the ISOLATED dimer, not only the assembled microtubule, has clean affinity data, and is a rigid molecule -- all of which make it a better docking control. Receptor prep: keep both heterodimers and the cofactors (GTP/GDP/Mg); stathmin (chain E) may be stripped during refinement, since it is far from the site.",
   "literature": "Ravelli et al. 2004 Nature 428:198-202 (PDB 1SA0).",
   "provenance": {
     "mode": "authored",

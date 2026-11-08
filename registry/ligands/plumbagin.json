@@ -25,9 +25,9 @@
     },
     "gates": []
   },
-  "notes": "5-Hidroxi-2-metil-1,4-naftoquinona. Produto natural de Plumbago spp.; atividade antiparasitaria e antitumoral descrita na literatura.",
+  "notes": "5-Hydroxy-2-methyl-1,4-naphthoquinone. Natural product from Plumbago spp.; antiparasitic and antitumour activity described in the literature.",
   "provenance": {
-    "generated_from": "curado a mao a partir da literatura (produto natural publicado)",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "tools/export_compound_db_to_registry.py",
     "date_added": "2026-07-04",
     "has_prepared_pdbqt": false

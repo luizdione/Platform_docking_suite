@@ -1,440 +1,452 @@
-# Manual do modulo de drug design computacional
-## Docking Suite - IFRJ
+# Computational drug design module
+## Docking Suite — IFRJ
 
-**Modulo:** `drug_design_module.py`  
-**Aba do dashboard:** Drug Design  
-**Scaffold parental:** o que voce informar. O default e a beta-lapachona, um produto  
-natural publicado - nao ha composto soldado no modulo.  
-**Referencia central do catalogo:** Pinto & De Castro, *Front. Physiol.* 2014;  
-Pinto & De Castro, *Molecules* 2009
+**Module:** `drug_design_module.py`
+**Dashboard tab:** Drug Design
+**Parent scaffold:** whatever you give it. The default is β-lapachone, a published natural
+product — no compound is hardcoded in the module.
+**Central reference for the catalogue:** Pinto & De Castro, *Molecules* 2009;
+De Castro et al., *Front. Physiol.* 2014
 
-> **O que este manual documenta, e o que ele nao e.** O catalogo de R-groups, as
-> rotas sinteticas e o modelo de dG vem de **SAR publicado** -- cada entrada carrega
-> a citacao no campo `ref`. Nada aqui e resultado de pesquisa: o modulo propoe
-> hipoteses de sintese a partir do scaffold que voce der a ele, e a prioridade e
-> sempre validar no docking real.
-
----
-
-## O que este módulo faz
-
-O módulo de Drug Design gera **novos candidatos antiparasitários** in silico a partir dos compostos do banco de dados, usando três estratégias complementares:
-
-1. **FBDD** — substituição sistemática de grupos funcionais (R-groups) na scaffold quinônica
-2. **Hibridização** — fusão de fragmentos BRICS de dois compostos ativos (estratégia de design do LQB-118)
-3. **Algoritmo Genético** — evolução guiada por função de fitness combinando ADMET, afinidade estimada e acessibilidade sintética
-
-Cada candidato gerado recebe:
-- SMILES canônico validado pelo RDKit
-- Perfil ADMET computacional (Lipinski, QED, TPSA, SAS)
-- ΔG estimado de ligação à TcTR (modelo QSAR empírico)
-- **Rota sintética sugerida** baseada em protocolos estabelecidos
-- **Racional científico** embasado na literatura citada
-- Parágrafo de resultados pronto para relatório (EN/PT)
+> **What this manual documents, and what it is not.** The R-group catalogue, the synthetic
+> routes and the ΔG model all come from **published SAR** — each entry carries its citation
+> in the `ref` field. Nothing here is a research result: the module proposes synthesis
+> hypotheses from the scaffold you hand it, and the priority is always to validate them in
+> real docking.
 
 ---
 
-## Base química — por que a scaffold quinônica
+## What the module does
 
-### O alvo: tripanotiona redutase
+It generates **new antiparasitic candidates** in silico from the compounds in the
+database, using three complementary strategies:
 
-Tripanossomatídeos não usam glutationa como tiol antioxidante principal: usam
-**tripanotiona**, mantida reduzida pela tripanotiona redutase (TR). A via não existe em
-mamíferos, e a contraparte humana mais próxima é a glutationa redutase (hGR), de sítio
-ativo mais estreito. É essa diferença de arquitetura que abre margem a um ligante
-seletivo — e é também por isso que a plataforma doca a enzima do parasito **sempre** ao
-lado da contraparte humana. Sem o contra-alvo, "liga bem" não é seletividade.
+1. **FBDD** — systematic substitution of functional groups (R-groups) on the quinone scaffold
+2. **Hybridisation** — fusion of BRICS fragments from two active compounds (the LQB-118 design strategy)
+3. **Genetic algorithm** — evolution guided by a fitness function combining ADMET, estimated affinity and synthetic accessibility
 
-### Por que quinona
-
-Duas propriedades, documentadas na literatura antiparasitária, fazem do núcleo
-1,4-quinônico um ponto de partida recorrente:
-
-- **Ciclo redox.** A quinona é reduzida a semiquinona, que reage com O₂ e devolve a
-  quinona gerando superóxido. O resultado é estresse oxidativo sustentado — e ele é
-  relativamente seletivo para o parasito, cuja defesa tiol-dependente é a própria TR.
-- **Substrato subversivo.** Quinonas competem por elétrons na face da flavina de
-  flavoenzimas, desviando o fluxo que deveria reduzir o tiol fisiológico.
-
-Daí o catálogo abaixo: cada R-group é uma modificação em C2 do núcleo com SAR
-antiparasitário **publicado**, e o campo `ref` diz de onde vem.
-
-> Os dois mecanismos não são mutuamente exclusivos nem automáticos. Qual deles domina
-> depende da molécula e do alvo, e é pergunta experimental — o módulo gera a hipótese,
-> não a resposta.
+Each generated candidate gets:
+- a canonical SMILES validated by RDKit
+- a computational ADMET profile (Lipinski, QED, TPSA, SAS)
+- an estimated binding ΔG against TcTR (empirical QSAR model)
+- a **suggested synthetic route**, based on established protocols
+- a **scientific rationale** grounded in the cited literature
+- a results paragraph ready for a report (EN/PT)
 
 ---
 
-## Abordagem 1 — FBDD (Fragment-Based Drug Design)
+## Chemical basis — why the quinone scaffold
 
-### Princípio
+### The target: trypanothione reductase
 
-Substitui o grupo funcional na posição **C2 da 1,4-naftoquinona** (entre as duas carbonilas) por R-groups selecionados de um catálogo de 20 grupos baseado em SAR publicado.
+Trypanosomatids do not use glutathione as their principal antioxidant thiol: they use
+**trypanothione**, kept reduced by trypanothione reductase (TR). The pathway does not exist
+in mammals, and the closest human counterpart is glutathione reductase (hGR), whose active
+site is narrower. That difference in architecture is what leaves room for a selective
+ligand — and it is also why the platform docks the parasite enzyme **always** alongside the
+human counterpart. Without the counter-target, "binds well" is not selectivity.
+
+### Why a quinone
+
+Two properties, documented in the antiparasitic literature, make the 1,4-quinone core a
+recurring starting point:
+
+- **Redox cycling.** The quinone is reduced to a semiquinone, which reacts with O₂ and
+  returns the quinone while generating superoxide. The result is sustained oxidative
+  stress — and it is relatively selective for the parasite, whose thiol-dependent defence
+  is TR itself.
+- **Subversive substrate.** Quinones compete for electrons at the flavin face of
+  flavoenzymes, diverting the flux that should have reduced the physiological thiol.
+
+Hence the catalogue below: each R-group is a modification at C2 of the core with
+**published** antiparasitic SAR, and the `ref` field says where it comes from.
+
+> The two mechanisms are neither mutually exclusive nor automatic. Which one dominates
+> depends on the molecule and the target, and that is an experimental question — the module
+> generates the hypothesis, not the answer.
+
+---
+
+## Approach 1 — FBDD (fragment-based drug design)
+
+### Principle
+
+It replaces the functional group at **C2 of 1,4-naphthoquinone** (between the two
+carbonyls) with R-groups drawn from a 20-group catalogue based on published SAR.
 
 ```
          O                     O
          ‖                     ‖
     ┌────C────┐           ┌────C────┐
     │         │           │         │
-  ──C         C─── [X]    C         C─── [R-group novo]
+  ──C         C─── [X]    C         C─── [new R-group]
     │         │           │         │
     └────C────┘           └────C────┘
          ‖                     ‖
          O                     O
-    
-    Composto parental        Análogo FBDD
+
+    Parent compound          FBDD analogue
 ```
 
-### Catálogo de R-groups por categoria
+### R-group catalogue, by category
 
-#### Halogênios — ciclo redox e hal-bonds
+#### Halogens — redox cycling and halogen bonds
 
-| R-group | Síntese | Racional | Referência |
+| R-group | Synthesis | Rationale | Reference |
 |---|---|---|---|
-| **–Cl** | Cl₂/AcOH ou NCS/DMF | ↑logP +0.7; hal-bond com backbone; NQ1-Cl ativo (Literatura) | Salomão et al. 2013 BMC Microbiol |
-| **–Br** | Br₂/AcOH ou NBS/AcOEt | Maior polarizabilidade que Cl; NQ1-Br IC50 ~0.8 μM vs T. cruzi | Duarte/De Castro et al. 2020 |
-| **–F** | SELECTFLUOR® ou F-TEDA-BF₄ | Bioisóstero de H; C–F resiste CYP450; ↑metabolic stability | Rani 2022 Chem Biol Drug Des |
+| **–Cl** | Cl₂/AcOH or NCS/DMF | ↑logP +0.7; halogen bond to the backbone; NQ1-Cl active | Salomão et al. 2013 BMC Microbiol |
+| **–Br** | Br₂/AcOH or NBS/EtOAc | Greater polarisability than Cl; NQ1-Br IC50 ~0.8 μM vs T. cruzi | Duarte et al. 2020 |
+| **–F** | SELECTFLUOR® or F-TEDA-BF₄ | Bioisostere of H; C–F resists CYP450; ↑metabolic stability | Rani 2022 Chem Biol Drug Des |
 
-#### Grupos Sulfa — interação com Cys do sítio TcTR
+#### Sulfur groups — interaction with the Cys of the TcTR site
 
-| R-group | Síntese | Racional | Referência |
+| R-group | Synthesis | Rationale | Reference |
 |---|---|---|---|
-| **–SOCH₃** | mCPBA (1 equiv., 0°C, DCM) | ↑solubilidade vs –SCH₃; sulfóxidos metabolicamente estáveis | SAR revisão Rani 2022 |
-| **–S-tiazolil** | SNAr + 2-mercaptotiazol/K₂CO₃/DMF | π-stacking com FAD de TcTR; bioisóstero imidazol | SAR tiazol-NQ |
-| **–SO₂NH₂** | Oxone®/MeOH:H₂O | TPSA +42 Å²; H-bond com Glu18 e Tyr110 TcTR | De Castro group reviews |
+| **–SOCH₃** | mCPBA (1 equiv., 0 °C, DCM) | ↑solubility vs –SCH₃; sulfoxides are metabolically stable | Rani 2022 review |
+| **–S-thiazolyl** | SNAr + 2-mercaptothiazole/K₂CO₃/DMF | π-stacking with the FAD of TcTR; imidazole bioisostere | thiazolyl-NQ SAR |
+| **–SO₂NH₂** | Oxone®/MeOH:H₂O | TPSA +42 Å²; H-bond to Glu18 and Tyr110 of TcTR | De Castro group reviews |
 
-#### Grupos Nitrogenados — H-bonds e ativação por TcNTR
+#### Nitrogen groups — H-bonds and activation by TcNTR
 
-| R-group | Síntese | Racional | Referência |
+| R-group | Synthesis | Rationale | Reference |
 |---|---|---|---|
-| **–NH₂** | SnCl₂/EtOH/HCl ou NH₃/autoclave | H-bond para Glu18; série 2-amino-NQ bem estudada | Pinto & De Castro 2009 Molecules |
-| **–NO₂** | HNO₃ conc./H₂SO₄ (0°C) | Dupla ação: ROS + ativação por TcNTR (como BZN) | Docampo & De Souza 1978; Salomão 2013 |
-| **–triazol** | CuAAC click chemistry | IC50 0.8–3.1 μM, mais ativo que BZN; síntese fácil >90% | Bahia et al. 2016 MedChemComm |
-| **–imidazol** | SNAr de 2-halo-NQ + imidazol/K₂CO₃/DMF | Base dos naftoimidazóis N1/N2/N3 (Literatura) IC50 0.5–2.0 μM | Pinto & De Castro 2009 Molecules |
-| **–pirazinaamino** | Buchwald-Hartwig ou SNAr com Cl-pirazina | N básico → ↑solubilidade em pH ácido (endossoma Leishmania) | Medicinal chemistry de aminopyrazina |
+| **–NH₂** | SnCl₂/EtOH/HCl or NH₃/autoclave | H-bond to Glu18; the 2-amino-NQ series is well studied | Pinto & De Castro 2009 Molecules |
+| **–NO₂** | conc. HNO₃/H₂SO₄ (0 °C) | Dual action: ROS + activation by TcNTR, as in benznidazole | Docampo & De Souza 1978; Salomão 2013 |
+| **–triazole** | CuAAC click chemistry | IC50 0.8–3.1 μM, more active than benznidazole; easy synthesis, >90% yield | Bahia et al. 2016 MedChemComm |
+| **–imidazole** | SNAr of 2-halo-NQ + imidazole/K₂CO₃/DMF | Basis of the N1/N2/N3 naphthoimidazoles, IC50 0.5–2.0 μM | Pinto & De Castro 2009 Molecules |
+| **–aminopyrazine** | Buchwald-Hartwig or SNAr with Cl-pyrazine | Basic N → ↑solubility at acidic pH (the Leishmania endosome) | aminopyrazine medicinal chemistry |
 
-#### Grupos Oxigenados — solubilidade e bioisósteros
+#### Oxygen groups — solubility and bioisosteres
 
-| R-group | Síntese | Racional | Referência |
+| R-group | Synthesis | Rationale | Reference |
 |---|---|---|---|
-| **–OH** (lawsona-like) | SeO₂/dioxano ou hidrólise K₂CO₃/MeOH | Precursor LQB-118; quelação Fe-SOD; TPSA +17 Å² | Maia 2011 Invest New Drugs |
-| **–OCH₃** | Me₂SO₄/K₂CO₃/acetona | Bloqueia oxidação; logP +0.5; análogo atovaquona | Lopes 1978 Ann Trop Med |
-| **–OCF₃** | AgOCF₃/DCM ou Umemoto | ↑↑lipofilicidade; resistência CYP450; antiprotozoais modernos | CF₃O medicinal chemistry |
+| **–OH** (lawsone-like) | SeO₂/dioxane or K₂CO₃/MeOH hydrolysis | LQB-118 precursor; Fe-SOD chelation; TPSA +17 Å² | Maia 2011 Invest New Drugs |
+| **–OCH₃** | Me₂SO₄/K₂CO₃/acetone | Blocks oxidation; logP +0.5; atovaquone analogue | Lopes 1978 Ann Trop Med |
+| **–OCF₃** | AgOCF₃/DCM or Umemoto | ↑↑lipophilicity; CYP450 resistance; used in modern antiprotozoals | OCF₃ medicinal chemistry |
 
-#### Heterocíclicos Fusionados — π-stacking com FAD
+#### Fused heterocycles — π-stacking with FAD
 
-| R-group | Síntese | Racional | Referência |
+| R-group | Synthesis | Rationale | Reference |
 |---|---|---|---|
-| **–isoxazolil** | [3+2] cicloaddição, sem metal | Bioisóstero imidazol; antiparasitários modernos | MDPI Pharmaceutics 2022 |
-| **–pirazolil** | Condensação hidrazina + β-cetoéster | Análogos pirazol-NQ ativos vs T. brucei | SAR revisão Rani 2022 |
+| **–isoxazolyl** | [3+2] cycloaddition, metal-free | Imidazole bioisostere; modern antiparasitics | MDPI Pharmaceutics 2022 |
+| **–pyrazolyl** | Hydrazine + β-ketoester condensation | pyrazolyl-NQ analogues active vs T. brucei | Rani 2022 review |
 
-#### Grupos Alifáticos — lapachol/menadiona-like
+#### Aliphatic groups — lapachol/menadione-like
 
-| R-group | Síntese | Racional | Referência |
+| R-group | Synthesis | Rationale | Reference |
 |---|---|---|---|
-| **–CH₃** (menadiona) | MeMgBr/CuI/THF | Vitamina K3; ativo vs T. cruzi (Docampo 1978) | Docampo et al. 1978 Z Parasitenkd |
-| **–CF₃** | Togni I/II ou TMSCF₃/CsF | σp +0.54; resiste metabolismo; antiprotozoais modernos | SAR CF₃ em antiparasitários |
-| **–alil** (lapachol) | Alilamina/K₂CO₃/DMF | Fragmento lapachol; Michael acceptor in vivo | Moura 2001 J Braz Chem Soc |
-| **–dihidrobenzofuranila** | Oxa-Michael + ciclização (síntese LQB-118) | INSPIRADO NO LQB-118 (pterocarpanquinona Literatura) | Maia 2011; Cunha-Junior 2016 AAC |
+| **–CH₃** (menadione) | MeMgBr/CuI/THF | Vitamin K3; active vs T. cruzi | Docampo et al. 1978 Z Parasitenkd |
+| **–CF₃** | Togni I/II or TMSCF₃/CsF | σp +0.54; resists metabolism; used in modern antiprotozoals | CF₃ SAR in antiparasitics |
+| **–allyl** (lapachol) | Allylamine/K₂CO₃/DMF | Lapachol fragment; Michael acceptor in vivo | Moura 2001 J Braz Chem Soc |
+| **–dihydrobenzofuranyl** | Oxa-Michael + cyclisation (the LQB-118 synthesis) | Inspired by LQB-118 (a pterocarpanquinone) | Maia 2011; Cunha-Junior 2016 AAC |
 
-### Como usar no dashboard
+### How to use it in the dashboard
 
-1. Selecionar botão **FBDD (R-groups)**
-2. Inserir SMILES do composto parental ou clicar **Carregar composto ativo**
-3. Selecionar categorias de R-groups (Ctrl+clique para múltiplas)
-4. Definir número máximo de variantes (20 padrão)
-5. Clicar **Gerar Candidatos**
-6. Ver tabela de candidatos rankeados
-7. Clicar **Ver síntese** em qualquer candidato para detalhes completos
+1. Click **FBDD (R-groups)**
+2. Enter the SMILES of the parent compound, or click **Load active compound**
+3. Select R-group categories (Ctrl+click for several)
+4. Set the maximum number of variants (20 by default)
+5. Click **Generate candidates**
+6. Read the ranked candidate table
+7. Click **View synthesis** on any candidate for the full detail
 
-### Interpretando os resultados FBDD
+### Reading the FBDD results
 
-| Métrica | Bom | Moderado | Ruim |
+| Metric | Good | Moderate | Poor |
 |---|---|---|---|
-| ΔG estimado | ≤ −8.0 kcal/mol | −6.0 a −8.0 | > −6.0 |
-| Drug Score | ≥ 7.0 | 5.0 – 7.0 | < 5.0 |
-| SAS | ≤ 3.0 (fácil) | 3.0 – 5.0 | > 5.0 |
-| Lipinski | Aprovado | — | Reprovado |
+| Estimated ΔG | ≤ −8.0 kcal/mol | −6.0 to −8.0 | > −6.0 |
+| Drug score | ≥ 7.0 | 5.0 – 7.0 | < 5.0 |
+| SAS | ≤ 3.0 (easy) | 3.0 – 5.0 | > 5.0 |
+| Lipinski | pass | — | fail |
 | TPSA | 40–90 Å² | 90–140 Å² | > 140 Å² |
 
 ---
 
-## Abordagem 2 — Hibridização Molecular (BRICS)
+## Approach 2 — molecular hybridisation (BRICS)
 
-### Princípio — inspirado no LQB-118 (Literatura)
+### Principle — after LQB-118
 
-A **hibridização molecular** é uma estratégia de design amplamente usada pelo grupo De Castro et al./Literatura. O **LQB-118** (pterocarpanquinona) foi criado pela fusão de **lapachol** (naftoquinona natural) com **pterocarpano** (fragmento vegetal), resultando em:
-- IC50 = 2.5 μM vs T. cruzi epimastigotas
-- 99% redução carga parasitária in vivo (leishmaniose visceral, 10 mg/kg oral)
-- Ativo em leucemia mielóide crônica (LMC) — atividade anticâncer
+**Molecular hybridisation** is a design strategy widely used in the antiparasitic
+literature. **LQB-118** (a pterocarpanquinone) was created by fusing **lapachol** (a
+natural naphthoquinone) with a **pterocarpan** (a plant fragment), giving:
+
+- IC50 = 2.5 μM against T. cruzi epimastigotes
+- 99% reduction of parasite load in vivo (visceral leishmaniasis, 10 mg/kg oral)
+- activity in chronic myeloid leukaemia — an anticancer effect
 
 ```
-     Lapachol                 Pterocarpano              LQB-118
-  [scaffold NQ]    +    [fragmento bicíclico]  →  [híbrido pterocarpanquinona]
-  IC50 ~20 μM           — antifúngico              IC50 2.5 μM T. cruzi
-                                                    IS > 40x (CC50 >100 μM VERO)
+     Lapachol                 Pterocarpan               LQB-118
+  [NQ scaffold]    +    [bicyclic fragment]  →  [pterocarpanquinone hybrid]
+  IC50 ~20 μM            — antifungal              IC50 2.5 μM T. cruzi
+                                                   SI > 40x (CC50 >100 μM VERO)
 ```
 
-### Algoritmo BRICS do módulo
+### The module's BRICS algorithm
 
-1. **Fragmentação**: cada composto é quebrado nos pontos de ligação definidos pelo algoritmo BRICS (Breaking Retrosynthetically Interesting Chemical Substructures — Degen et al. 2008)
-2. **Filtragem**: fragmentos com < 4 átomos pesados são descartados
-3. **Recombinação**: todas as combinações de fragmento-A + fragmento-B são testadas
-4. **Filtragem Lipinski**: MW ≤ 650, HBD ≤ 5
-5. **Pontuação e ranking**: drug_score + ΔG estimado + SAS
+1. **Fragmentation**: each compound is broken at the bonds defined by the BRICS algorithm (Breaking Retrosynthetically Interesting Chemical Substructures — Degen et al. 2008)
+2. **Filtering**: fragments with fewer than 4 heavy atoms are discarded
+3. **Recombination**: every fragment-A + fragment-B combination is tried
+4. **Lipinski filter**: MW ≤ 650, HBD ≤ 5
+5. **Scoring and ranking**: drug_score + estimated ΔG + SAS
 
-### Rotas sintéticas sugeridas automaticamente
+### Automatically suggested synthetic routes
 
-O módulo detecta a química dos fragmentos e sugere a rota mais adequada:
+The module reads the chemistry of the fragments and suggests the most suitable route:
 
-| Situação | Rota sugerida |
+| Situation | Suggested route |
 |---|---|
-| Fragmento B contém N | Buchwald-Hartwig (Pd₂(dba)₃/Xphos) ou SNAr |
-| Fragmento B contém O | Condensação de Williamson ou oxa-Michael |
-| Ambos aromáticos | Suzuki-Miyaura (Pd/boronato) ou Ullmann (Cu) |
-| Sem heteroátomos | Knoevenagel ou adição Michael |
+| Fragment B contains N | Buchwald-Hartwig (Pd₂(dba)₃/Xphos) or SNAr |
+| Fragment B contains O | Williamson condensation or oxa-Michael |
+| Both aromatic | Suzuki-Miyaura (Pd/boronate) or Ullmann (Cu) |
+| No heteroatoms | Knoevenagel or Michael addition |
 
-### Combinações de exemplo
+### Example combinations
 
-Pares formados só com compostos **publicados**, dos que acompanham a plataforma. Servem
-para você ver o módulo funcionando antes de usar o seu próprio scaffold.
+Pairs formed only from **published** compounds, among those that ship with the platform.
+They let you see the module working before you use your own scaffold.
 
-| Composto A | Composto B | Justificativa |
+| Compound A | Compound B | Rationale |
 |---|---|---|
-| β-Lapachona | LQB-118 | Anel furanônico (ROS + bioativação por NQO1) + fragmento pterocarpano |
-| Plumbagina | β-Lapachona | –OH quelante (ativo vs Fe-SOD de *Leishmania*) + bioativação por NQO1 |
-| β-Lapachona | Benznidazol | Híbrido ROS + nitrorredução (dois mecanismos de fármaco aprovado) |
-| Lapachol | Atovaquona | Núcleo natural + cadeia lipofílica de ligante do complexo III |
+| β-Lapachone | LQB-118 | Furanone ring (ROS + NQO1 bioactivation) + pterocarpan fragment |
+| Plumbagin | β-Lapachone | Chelating –OH (active vs *Leishmania* Fe-SOD) + NQO1 bioactivation |
+| β-Lapachone | Benznidazole | ROS + nitroreduction hybrid (two approved-drug mechanisms) |
+| Lapachol | Atovaquone | Natural core + the lipophilic chain of a complex III ligand |
 
-### Como usar no dashboard
+### How to use it in the dashboard
 
-1. Selecionar botão **Hibridização**
-2. Inserir SMILES do Composto A (parental)
-3. Inserir SMILES do Composto B (parceiro — do banco de compostos)
-4. Definir número máximo de híbridos
-5. Clicar **Gerar Candidatos**
+1. Click **Hybridisation**
+2. Enter the SMILES of compound A (the parent)
+3. Enter the SMILES of compound B (the partner, from the compound database)
+4. Set the maximum number of hybrids
+5. Click **Generate candidates**
 
 ---
 
-## Abordagem 3 — Algoritmo Genético (GA)
+## Approach 3 — genetic algorithm
 
-### Princípio de evolução darwiniana aplicado à química
+### Darwinian evolution applied to chemistry
 
 ```
-Geração 0:        Geração 5:        Geração 15:
-[banco compostos] → [mutações +]  → [candidatos]
-                     [cruzamentos]    [otimizados]
+Generation 0:      Generation 5:      Generation 15:
+[compound bank] → [mutations +]   → [optimised]
+                   [crossovers]      [candidates]
 
 Fitness = f(ΔG_TcTR) × f(ADMET) × f(SAS)
-         ↑ afinidade   ↑ drug-like  ↑ fácil sintetizar
+         ↑ affinity    ↑ drug-like  ↑ easy to make
 ```
 
-### Operações genéticas implementadas
+### Genetic operations implemented
 
-**Mutação (35% de probabilidade):**
-Seleciona aleatoriamente uma categoria de R-group e aplica substituição no composto parental via FBDD.
+**Mutation (35% probability):** picks an R-group category at random and applies the
+substitution to the parent compound via FBDD.
 
-**Cruzamento / Crossover (40% de probabilidade):**
-Fragmenta dois compostos via BRICS e recombina fragmentos de pais diferentes (hibridização).
+**Crossover (40% probability):** fragments two compounds via BRICS and recombines
+fragments from different parents (hybridisation).
 
-**Elitismo (20% da população):**
-Os melhores indivíduos de cada geração são preservados sem modificação.
+**Elitism (20% of the population):** the best individuals of each generation are carried
+over unchanged.
 
-**Seleção por torneio:**
-3 indivíduos aleatórios competem → o de maior fitness vai para reprodução.
+**Tournament selection:** 3 random individuals compete; the fittest goes to reproduction.
 
-### Função de Fitness
+### Fitness function
 
 ```
 fitness = dg_score × admet_score × sas_score × lipinski_bonus
 
-onde:
-  dg_score   = max(0, (-ΔG_est - 2.0) / 8.0)      [0–1, ΔG de -2 a -10 kcal/mol]
-  admet_score = drug_score / 10.0                   [0–1]
-  sas_score  = 1 - (SAS - 1.0) / 9.0               [0–1, SAS de 1 a 10]
-  lip_bonus  = 1.0 se Lipinski OK, 0.4 se falha
+where:
+  dg_score    = max(0, (-ΔG_est - 2.0) / 8.0)     [0–1, ΔG from -2 to -10 kcal/mol]
+  admet_score = drug_score / 10.0                  [0–1]
+  sas_score   = 1 - (SAS - 1.0) / 9.0              [0–1, SAS from 1 to 10]
+  lip_bonus   = 1.0 if Lipinski passes, 0.4 if it fails
 ```
 
-### Parâmetros recomendados por objetivo
+### Recommended parameters by goal
 
-| Objetivo | Gerações | Tamanho Pop. | Tempo estimado |
+| Goal | Generations | Population | Estimated time |
 |---|---|---|---|
-| Exploração rápida / teste | 10 | 15 | ~1–2 min |
-| Triagem padrão | 15 | 20 | ~3–5 min |
-| Otimização detalhada | 25 | 30 | ~10–15 min |
-| Campanha de design | 50 | 50 | ~30–60 min |
+| Quick exploration / smoke test | 10 | 15 | ~1–2 min |
+| Standard screen | 15 | 20 | ~3–5 min |
+| Detailed optimisation | 25 | 30 | ~10–15 min |
+| Design campaign | 50 | 50 | ~30–60 min |
 
-### Como usar no dashboard
+### How to use it in the dashboard
 
-1. Selecionar botão **Algoritmo Genético**
-2. Inserir SMILES dos compostos semente (um por linha) — recomendado: 3 compostos do banco
-3. Inserir nomes correspondentes (mesma ordem)
-4. Definir gerações e tamanho de população
-5. Clicar **Gerar Candidatos**
-6. Acompanhar a convergência pelo gráfico de evolução gerado
+1. Click **Genetic algorithm**
+2. Enter the SMILES of the seed compounds, one per line — three from the bank is a good start
+3. Enter the matching names, in the same order
+4. Set generations and population size
+5. Click **Generate candidates**
+6. Follow convergence on the generated evolution plot
 
 ---
 
-## Modelo QSAR — ΔG Estimado para TcTR
+## QSAR model — estimated ΔG for TcTR
 
-O módulo usa um modelo QSAR empírico para estimar a afinidade de ligação (ΔG) de candidatos com a **tripanotiona redutase de T. cruzi (TcTR, PDB: 1BZL)** sem precisar rodar docking para cada variante.
+The module uses an empirical QSAR model to estimate the binding affinity (ΔG) of
+candidates against **T. cruzi trypanothione reductase (TcTR, PDB 1BZL)** without running
+docking for every variant.
 
-### Calibração do modelo
+### Model calibration
 
-O modelo foi calibrado sobre ~50 naftoquinonas com dados de docking publicados:
+The model was calibrated on ~50 naphthoquinones with published docking data:
 
-| Publicação | Compostos | ΔG range |
+| Publication | Compounds | ΔG range |
 |---|---|---|
-| Pinto & De Castro 2009 | 16 NQ derivados | -4.5 a -9.2 kcal/mol |
-| Pinto & De Castro 2009 | 12 lapachol derivados | -5.0 a -8.8 kcal/mol |
-| Salomão et al. 2013 BMC Microbiol | 8 NQ análogos | -5.5 a -8.5 kcal/mol |
-| Rani et al. 2022 Chem Biol Drug Des | 14 NQ naturais | -4.8 a -9.1 kcal/mol |
+| Pinto & De Castro 2009 | 16 NQ derivatives | -4.5 to -9.2 kcal/mol |
+| Pinto & De Castro 2009 | 12 lapachol derivatives | -5.0 to -8.8 kcal/mol |
+| Salomão et al. 2013 BMC Microbiol | 8 NQ analogues | -5.5 to -8.5 kcal/mol |
+| Rani et al. 2022 Chem Biol Drug Des | 14 natural NQs | -4.8 to -9.1 kcal/mol |
 
-### Equação do modelo
+### The model equation
 
 ```
-ΔG_est = -5.5                         (base: 1,4-NQ simples)
-       + f(logP)                       (sweet spot 2.0–3.5: -1.2)
-       + f(TPSA)                       (ideal 50–90 Å²: -0.8)
-       + f(HBD) × (-0.35)             (cada doador H-bond)
-       + f(HBA) × (-0.18)             (até 5 aceitadores)
-       + f(MW)                         (ideal 200–380 Da: -0.6)
-       + N_arom × (-0.5)              (N aromático: π-stacking FAD)
-       + S_presence × (-0.7)          (análogos –SCN: Cys52/57)
-       + N_hal × (-0.35)              (halogênios: hal-bonds)
-       + NO2_presence × (-0.5)        (ativação TcNTR)
+ΔG_est = -5.5                        (base: plain 1,4-NQ)
+       + f(logP)                      (sweet spot 2.0–3.5: -1.2)
+       + f(TPSA)                      (ideal 50–90 Å²: -0.8)
+       + f(HBD) × (-0.35)            (per H-bond donor)
+       + f(HBA) × (-0.18)            (up to 5 acceptors)
+       + f(MW)                        (ideal 200–380 Da: -0.6)
+       + N_arom × (-0.5)             (aromatic N: π-stacking with FAD)
+       + S_presence × (-0.7)         (sulfur at C2: Cys52/57)
+       + N_hal × (-0.35)             (halogens: halogen bonds)
+       + NO2_presence × (-0.5)       (TcNTR activation)
 ```
 
-### Limitações do modelo QSAR
+### Limits of the QSAR model
 
-O ΔG estimado é um **ranqueamento relativo**, não uma predição absoluta. Erros esperados: ±1.5 a 2.5 kcal/mol em relação ao docking real com Vina. Para candidatos top-5, é **fortemente recomendado** rodar o docking real via aba Pipeline do dashboard para validar.
+The estimated ΔG is a **relative ranking**, not an absolute prediction. Expect errors of
+±1.5 to 2.5 kcal/mol against real Vina docking. For the top five candidates it is
+**strongly recommended** to run real docking from the dashboard's Pipeline tab.
 
 ---
 
-## Score de Acessibilidade Sintética (SAS)
+## Synthetic accessibility score (SAS)
 
-O SAS (Ertl & Schuffenhauer 2009) mede a facilidade de síntese em escala de 1 a 10.
+SAS (Ertl & Schuffenhauer 2009) measures how easy a molecule is to synthesise, on a scale
+of 1 to 10.
 
-| SAS | Interpretação | Exemplo de estrutura |
+| SAS | Reading | Example structure |
 |---|---|---|
-| 1.0 – 2.5 | Muito fácil — reagentes comerciais, 1–2 etapas | Menadiona, plumbagina |
-| 2.5 – 3.5 | Fácil — síntese padrão, 2–4 etapas | Lapachol, juglona |
-| 3.5 – 5.0 | Moderada — 4–6 etapas, proteção/desproteção | β-lapachona, LQB-118 |
-| 5.0 – 7.0 | Complexa — especialização necessária | Naftoimidazóis N1/N2/N3 |
-| 7.0 – 10.0 | Muito complexa — síntese total | Estruturas policíclicas avançadas |
+| 1.0 – 2.5 | Very easy — commercial reagents, 1–2 steps | Menadione, plumbagin |
+| 2.5 – 3.5 | Easy — standard synthesis, 2–4 steps | Lapachol, juglone |
+| 3.5 – 5.0 | Moderate — 4–6 steps, protection/deprotection | β-lapachone, LQB-118 |
+| 5.0 – 7.0 | Complex — needs specialist expertise | N1/N2/N3 naphthoimidazoles |
+| 7.0 – 10.0 | Very complex — total synthesis | Advanced polycyclic structures |
 
-**Critério do módulo:** `synth_feasible = True` quando SAS ≤ 4.5 (síntese acessível em laboratório de química orgânica convencional como os disponíveis no IFRJ/Literatura).
-
----
-
-## Fluxo de Trabalho Recomendado
-
-### Da hipótese ao candidato priorizado
-
-```
-Passo 1: FBDD no seu scaffold
-   → Categorias: nitrogen (triazol, imidazol) + sulfur + halogen
-   → Max variantes: 20
-   → Objetivo: identificar 3-5 análogos com ΔG estimado <= -8.0 e SAS <= 4.0
-
-Passo 2: Hibridização
-   → scaffold × beta-lapachona   (mecanismo ROS + NQO1)
-   → scaffold × LQB-118          (fragmento pterocarpano)
-
-Passo 3: GA a partir dos melhores do banco
-   → Seeds: o seu scaffold + beta-lapachona + plumbagina
-   → 15 gerações, pop=20
-   → Objetivo: alcançar scaffold não óbvio
-
-Passo 4: VALIDAR -- o passo que não se pula
-   → Top-3 de cada abordagem → docking real na aba Pipeline
-   → Comparar com um fármaco de referência (ex.: benznidazol)
-   → O ΔG do QSAR é triagem; o do docking é que entra em relatório
-
-Passo 5: Relatório
-   → Botão "Download" na aba Drug Design (EN/PT)
-
-Passo 6: Proposta de síntese
-   → Priorizar SAS <= 3.5 e ΔG <= -8.0
-   → Encaminhar ao grupo de síntese parceiro
-```
-
-> O passo 4 existe porque o ΔG do modelo QSAR é uma estimativa de triagem, calibrada
-> sobre dados publicados de uma classe química. Tratá-lo como afinidade é o erro que o
-> módulo mais facilmente induz.
-
-### Critérios de prioridade para síntese
-
-Um candidato deve satisfazer **pelo menos 3 de 4** critérios para ser priorizado:
-
-- [ ] ΔG estimado ≤ −7.5 kcal/mol (melhor que o fármaco de referência previsto)
-- [ ] Drug Score ≥ 7.0 / 10
-- [ ] SAS ≤ 4.0 (síntese acessível)
-- [ ] Lipinski aprovado (MW ≤ 500, logP ≤ 5, HBD ≤ 5, HBA ≤ 10)
+**The module's criterion:** `synth_feasible = True` when SAS ≤ 4.5, that is, synthesis
+reachable in a conventional organic chemistry laboratory.
 
 ---
 
-## Integrando Drug Design com os outros módulos
+## Recommended workflow
 
-O módulo foi projetado para trabalhar em cadeia com o restante do pipeline:
+### From hypothesis to prioritised candidate
 
 ```
-Drug Design (novos SMILES)
-       ↓
-Compostos (adicionar ao banco via "Adicionar Novo Composto")
-       ↓
-Pipeline (rodar docking Vina para validar ΔG real)
-       ↓
-ADMET (perfil farmacocinético completo)
-       ↓
-MD Simulation (confirmar estabilidade do complexo 100 ns)
-       ↓
-Toxicidade (calcular IS = CC50/IC50 com os seus dados)
-       ↓
-Relatório (texto integrado dos módulos)
+Step 1: FBDD on your scaffold
+   → Categories: nitrogen (triazole, imidazole) + sulfur + halogen
+   → Max variants: 20
+   → Goal: find 3-5 analogues with estimated ΔG <= -8.0 and SAS <= 4.0
+
+Step 2: Hybridisation
+   → scaffold × beta-lapachone   (ROS + NQO1 mechanism)
+   → scaffold × LQB-118          (pterocarpan fragment)
+
+Step 3: GA from the best of the bank
+   → Seeds: your scaffold + beta-lapachone + plumbagin
+   → 15 generations, pop=20
+   → Goal: reach a non-obvious scaffold
+
+Step 4: VALIDATE -- the step you do not skip
+   → Top-3 from each approach → real docking in the Pipeline tab
+   → Compare against a reference drug (e.g. benznidazole)
+   → The QSAR ΔG is triage; the docking ΔG is what goes in a report
+
+Step 5: Report
+   → "Download" button in the Drug Design tab (EN/PT)
+
+Step 6: Synthesis proposal
+   → Prioritise SAS <= 3.5 and ΔG <= -8.0
+   → Hand over to a partner synthesis group
 ```
 
-Para adicionar um candidato do Drug Design ao banco:
-1. Copie o SMILES do candidato (coluna na tabela ou painel "Ver síntese")
-2. Vá para aba **Compostos** → campo SMILES → Cole → preencha nome → **Adicionar**
-3. O composto aparece no seletor do banner superior
-4. Selecione-o como composto ativo e rode qualquer aba normalmente
+> Step 4 exists because the QSAR ΔG is a triage estimate, calibrated on published data for
+> one chemical class. Treating it as an affinity is the error this module most easily
+> invites.
+
+### Priority criteria for synthesis
+
+A candidate should satisfy **at least 3 of 4** criteria to be prioritised:
+
+- [ ] Estimated ΔG ≤ −7.5 kcal/mol (better than the predicted reference drug)
+- [ ] Drug score ≥ 7.0 / 10
+- [ ] SAS ≤ 4.0 (accessible synthesis)
+- [ ] Lipinski pass (MW ≤ 500, logP ≤ 5, HBD ≤ 5, HBA ≤ 10)
 
 ---
 
-## Glossário
+## Chaining drug design with the other modules
 
-| Termo | Definição |
+The module is designed to work in sequence with the rest of the pipeline:
+
+```
+Drug Design (new SMILES)
+       ↓
+Compounds (add to the bank via "Add new compound")
+       ↓
+Pipeline (run Vina docking to validate the real ΔG)
+       ↓
+ADMET (full pharmacokinetic profile)
+       ↓
+MD Simulation (confirm complex stability)
+       ↓
+Toxicity (compute SI = CC50/IC50 from your own data)
+       ↓
+Report (integrated text from the modules)
+```
+
+To add a drug-design candidate to the bank:
+
+1. Copy the candidate's SMILES (from the table column or the "View synthesis" panel)
+2. Go to the **Compounds** tab → SMILES field → paste → fill in a name → **Add**
+3. The compound appears in the selector in the top banner
+4. Select it as the active compound and run any tab as usual
+
+---
+
+## Glossary
+
+| Term | Definition |
 |---|---|
-| **FBDD** | Fragment-Based Drug Design — design de drogas baseado em fragmentos moleculares |
-| **BRICS** | Breaking Retrosynthetically Interesting Chemical Substructures — algoritmo de fragmentação (Degen 2008) |
-| **SAR** | Structure-Activity Relationship — relação estrutura-atividade |
-| **ΔG** | Energia livre de Gibbs de ligação (kcal/mol) — quanto mais negativo, maior a afinidade |
+| **FBDD** | Fragment-Based Drug Design |
+| **BRICS** | Breaking Retrosynthetically Interesting Chemical Substructures — fragmentation algorithm (Degen 2008) |
+| **SAR** | Structure–Activity Relationship |
+| **ΔG** | Gibbs free energy of binding (kcal/mol) — the more negative, the higher the affinity |
 | **ADMET** | Absorption, Distribution, Metabolism, Excretion, Toxicity |
-| **QED** | Quantitative Estimate of Drug-likeness (Bickerton 2012) — 0 a 1, quanto maior melhor |
-| **SAS** | Synthetic Accessibility Score (Ertl 2009) — 1 a 10, quanto menor mais fácil sintetizar |
-| **TPSA** | Topological Polar Surface Area — área polar da superfície (Å²); ideal 40–90 Å² para antiparasitários |
-| **TcTR** | Tripanotiona Redutase de *T. cruzi* — alvo da campanha de exemplo (PDB 1BZL) |
-| **TcNTR** | Nitroreductase de T. cruzi — ativa pró-drogas nitro (BZN, análogos –NO₂) |
-| **IS** | Índice de Seletividade = CC50(hospedeiro) / IC50(parasito) |
-| **CuAAC** | Copper-catalyzed Azide-Alkyne Cycloaddition — "click chemistry" (Huisgen 1,3-dipolar) |
-| **SNAr** | Substituição Nucleofílica Aromática |
-| **GA** | Algoritmo Genético |
-| **Fitness** | Função que combina ΔG_TcTR + ADMET + SAS para guiar o GA |
+| **QED** | Quantitative Estimate of Drug-likeness (Bickerton 2012) — 0 to 1, higher is better |
+| **SAS** | Synthetic Accessibility Score (Ertl 2009) — 1 to 10, lower is easier to make |
+| **TPSA** | Topological Polar Surface Area (Å²); 40–90 Å² is the usual target for antiparasitics |
+| **TcTR** | *T. cruzi* trypanothione reductase — the target of the example campaign (PDB 1BZL) |
+| **TcNTR** | *T. cruzi* nitroreductase — activates nitro prodrugs (benznidazole, –NO₂ analogues) |
+| **SI** | Selectivity Index = CC50(host) / IC50(parasite) |
+| **CuAAC** | Copper-catalysed Azide–Alkyne Cycloaddition — "click chemistry" |
+| **SNAr** | Nucleophilic Aromatic Substitution |
+| **GA** | Genetic Algorithm |
+| **Fitness** | The function combining ΔG_TcTR + ADMET + SAS that steers the GA |
 
 ---
 
-## Referências Principais
+## Principal references
 
-1. De Castro et al. RFS, De Castro SL. *The double-edged sword in pathogenic trypanosomatids: The pivotal role of mitochondria in oxidative stress and bioenergetics.* Front Physiol 2014; revisão 2022 Mem IOC.
+1. De Castro SL et al. *The double-edged sword in pathogenic trypanosomatids: the pivotal role of mitochondria in oxidative stress and bioenergetics.* Front Physiol 2014.
 
-2. Pinto AV, De Castro SL. *The trypanocidal activity of naphthoquinones: A review.* Molecules 2009; 14:4570–4590.
+2. Pinto AV, De Castro SL. *The trypanocidal activity of naphthoquinones: a review.* Molecules 2009;14:4570–4590.
 
-3. De Castro et al. RFS, Henriques-Pons A, Pinto AV et al. *Effect of β-lapachone-derived naphthoimidazole on Trypanosoma cruzi.* J Antimicrob Chemother 2005;56:1034–1041.
+3. Menna-Barreto RFS, Henriques-Pons A, Pinto AV et al. *Effect of a β-lapachone-derived naphthoimidazole on Trypanosoma cruzi.* J Antimicrob Chemother 2005;56:1034–1041.
 
-4. Bahia MT, Bahia Barbosa C, Jardim et al. *Molecular hybridization as a powerful tool toward multitarget quinoidal systems.* MedChemComm 2016;7:1555.
+4. Bahia MT, Barbosa CB, Jardim et al. *Molecular hybridization as a powerful tool toward multitarget quinoidal systems.* MedChemComm 2016;7:1555.
 
-5. Salomão K, De Santana NA, Molina MT, De Castro SL, De Castro et al. RFS. *Mitochondrial swelling and membrane potential collapse as primary evidence of the mode of action of NQs.* BMC Microbiol 2013;13:196.
+5. Salomão K, De Santana NA, Molina MT, De Castro SL, Menna-Barreto RFS. *Mitochondrial swelling and membrane potential collapse as primary evidence of the mode of action of naphthoquinones.* BMC Microbiol 2013;13:196.
 
 6. Maia RC et al. *LQB-118, a pterocarpanquinone structurally related to lapachol: a novel class of agent with high apoptotic effect in chronic myeloid leukemia cells.* Invest New Drugs 2011;29:1143.
 

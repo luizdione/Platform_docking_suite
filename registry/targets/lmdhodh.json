@@ -4,7 +4,7 @@
   "aliases": [
     "3C61"
   ],
-  "name": "Dihydroorotate Dehydrogenase",
+  "name": "Dihydroorotate Dehydrogenase (DHODH)",
   "organism": "Leishmania donovani",
   "category": "parasite",
   "ortholog_of": "hDHODH",
@@ -47,15 +47,13 @@
     }
   },
   "default_site": "orthosteric",
-  "notes": "FMN essential. Naphthoquinones may compete as ubiquinone analogs.",
+  "notes": "FMN essential. Enzyme of the pyrimidine biosynthesis pathway and an emerging target in trypanosomatids. It uses ubiquinone as electron acceptor, so quinones may compete as analogues. Structurally distinct from the human enzyme (class 1A vs class 2), which is the basis for selectivity here.",
   "literature": "Pinheiro 2013.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Enzima da via de biossintese de pirimidinas. Alvo emergente para tripanossomatideos. Usa ubiquinona como aceptor de eletrons - quinonas podem competir como analogos. Estruturalmente distinta da DHODH humana.",
   "references": [
     "Pinheiro et al., 2013, Biochemistry"
-  ],
-  "name_en": "Dihydroorotate Dehydrogenase (DHODH)"
+  ]
 }

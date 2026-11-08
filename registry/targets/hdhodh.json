@@ -4,7 +4,7 @@
   "aliases": [
     "1D3H"
   ],
-  "name": "DHODH",
+  "name": "Dihydroorotate Dehydrogenase",
   "organism": "Homo sapiens",
   "category": "human",
   "ortholog_of": null,
@@ -44,15 +44,13 @@
     }
   },
   "default_site": "orthosteric",
-  "notes": "FMN essential.",
+  "notes": "FMN essential. Human counterpart of the Leishmania enzyme. Differences in the ubiquinone binding site are what selectivity rests on.",
   "literature": "Liu 2000.",
   "provenance": {
     "generated_from": "docking_v2.TARGET_DB",
     "generator": "tools/export_target_db_to_registry.py"
   },
-  "notes_pt": "Contraparte humana da DHODH de Leishmania. Diferencas no sitio de ligacao da ubiquinona permitem seletividade.",
   "references": [
     "Liu et al., 2000, Structure"
-  ],
-  "name_en": "Dihydroorotate Dehydrogenase"
+  ]
 }

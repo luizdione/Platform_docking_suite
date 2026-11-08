@@ -8,7 +8,7 @@
   "mw_g_mol": 421.55,
   "heavy_atoms": null,
   "charge": 0,
-  "class": "macrociclo natural (droga do citoesqueleto)",
+  "class": "natural macrocycle (cytoskeletal drug)",
   "chemotype_tags": [
     "cytoskeleton_drug",
     "macrocycle"
@@ -36,14 +36,14 @@
     },
     "gates": []
   },
-  "notes": "Macrolideo da esponja Latrunculia magnifica que liga a fenda do nucleotideo da actina monomerica, entre os subdominios 2 e 4, e sequestra o monomero. Co-cristal de referencia: 1ESV (CCD LAR). Macrociclo: 12 torsoes ativas, abaixo do gate padrao da plataforma (GATE_MIN_TORSIONS=15 em runner.py). O anel e rigido, e o gate generico nao se aplica a ele sem ajuste explicito no par.",
+  "notes": "Macrolide from the sponge Latrunculia magnifica that binds the nucleotide cleft of monomeric actin, between subdomains 2 and 4, sequestering the monomer. Reference co-crystal: 1ESV (CCD LAR). Macrocycle: 12 active torsions, below the platform's default gate (GATE_MIN_TORSIONS=15 in runner.py). The ring is rigid, so the generic gate does not apply to it without an explicit override on the pair.",
   "ccd": "LAR",
   "reference_pdb": "1ESV",
   "reference_resolution_A": 2.0,
   "provenance": {
     "mode": "ingested",
     "reproducible": false,
-    "generated_from": "curado a mao a partir da literatura e do co-cristal citado",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "tools/ingest_campaign.py"
   }
 }

@@ -8,7 +8,7 @@
   "mw_g_mol": 399.44,
   "heavy_atoms": 29,
   "charge": 0,
-  "class": "alcaloide tropolonico (ligante do sitio da colchicina na tubulina)",
+  "class": "tropolone alkaloid (colchicine-site tubulin ligand)",
   "chemotype_tags": [
     "tubulin_binder",
     "colchicine_site"
@@ -33,7 +33,7 @@
     },
     "gates": []
   },
-  "notes": "Alcaloide de Colchicum autumnale e farmaco de microtubulo: liga o sitio da colchicina na interface intradimero alfa/beta da tubulina e inibe a polimerizacao. Afinidade medida contra o DIMERO alfa/beta ISOLADO (Kd 58 nM a 3,7 uM; ChEMBL CHEMBL107) -- e por isso um controle de docking melhor que o taxol, cujo Kd so existe no microtubulo montado e cujo volume infla o score. O co-cristal 1SA0 traz o analogo DAMA-colchicina (CCD CN2); aqui se doca a colchicina livre.",
+  "notes": "Alkaloid from Colchicum autumnale and a microtubule drug: it binds the colchicine site at the alpha/beta intradimer interface of tubulin and inhibits polymerisation. Affinity was measured against the ISOLATED alpha/beta dimer (Kd 58 nM to 3.7 uM; ChEMBL CHEMBL107), which makes it a better docking control than taxol, whose Kd exists only for the assembled microtubule and whose volume inflates the score. Co-crystal 1SA0 carries the analogue DAMA-colchicine (CCD CN2); what is docked here is free colchicine.",
   "ccd": null,
   "reference_pdb": "1SA0",
   "reference_ligand_resname": "CN2",
@@ -43,7 +43,7 @@
   "provenance": {
     "mode": "authored",
     "reproducible": true,
-    "generated_from": "curado a mao a partir da literatura e do co-cristal citado",
+    "generated_from": "hand-curated from the literature and the cited co-crystal",
     "generator": "sessao 2026-08-12 (plano tidy-purring-cupcake)"
   }
 }
