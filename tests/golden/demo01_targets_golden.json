@@ -1,0 +1,243 @@
+{
+  "_note": "Snapshot dos campos que DEFINEM resultado cientifico dos alvos da campanha de exemplo. Gerado a partir de registry/targets/ -- sao entradas publicas do PDB, nenhum dado de pesquisa. Serve de gate: se um campo daqui mudar, o resultado de docking muda, e a mudanca tem de ser deliberada.",
+  "_generated_from": "registry/targets/*.json via docking_v2.TARGET_DB",
+  "targets": {
+    "LiTR": {
+      "pdb": "2JK6",
+      "organism": "Leishmania infantum (proxy for L. amazonensis, 95% identity)",
+      "target": "Trypanothione Reductase",
+      "category": "parasite",
+      "keep_cofactors": [
+        "FAD"
+      ],
+      "ligand_resnames": [
+        "TS2",
+        "TS4",
+        "FAD"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [
+        "CYS52",
+        "CYS57",
+        "HIS461"
+      ],
+      "grid_size": [
+        25,
+        25,
+        25
+      ],
+      "human_ortholog": "hGR"
+    },
+    "LmDHODH": {
+      "pdb": "3C61",
+      "organism": "Leishmania donovani",
+      "target": "Dihydroorotate Dehydrogenase",
+      "category": "parasite",
+      "keep_cofactors": [
+        "FMN",
+        "FAD"
+      ],
+      "ligand_resnames": [
+        "ORO",
+        "OA"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [],
+      "grid_size": [
+        25,
+        25,
+        25
+      ],
+      "human_ortholog": "hDHODH"
+    },
+    "LmPTR1": {
+      "pdb": "2QHX",
+      "organism": "Leishmania major",
+      "target": "Pteridine Reductase 1 (PTR1)",
+      "category": "parasite",
+      "keep_cofactors": [
+        "NAP",
+        "NDP",
+        "FAD"
+      ],
+      "ligand_resnames": [
+        "6QA",
+        "MTX",
+        "TAQ",
+        "DHB"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [
+        "PHE113",
+        "TYR194",
+        "SER111"
+      ],
+      "grid_size": [
+        22,
+        22,
+        22
+      ],
+      "human_ortholog": null
+    },
+    "TcCruzain": {
+      "pdb": "3KKU",
+      "organism": "Trypanosoma cruzi",
+      "target": "Cruzain",
+      "category": "parasite",
+      "keep_cofactors": [],
+      "ligand_resnames": [
+        "K11",
+        "VNS"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [
+        "CYS25",
+        "HIS159",
+        "ASN175"
+      ],
+      "grid_size": [
+        22,
+        22,
+        22
+      ],
+      "human_ortholog": "hCatL"
+    },
+    "TcFeSOD": {
+      "pdb": "4DVH",
+      "organism": "Trypanosoma cruzi",
+      "target": "Fe-Superoxide Dismutase",
+      "category": "parasite",
+      "keep_cofactors": [
+        "FE",
+        "FE2"
+      ],
+      "ligand_resnames": [],
+      "grid_strategy": "metal_center",
+      "grid_fallback_residues": [
+        "HIS26",
+        "HIS73",
+        "ASP156",
+        "HIS160"
+      ],
+      "grid_size": [
+        22,
+        22,
+        22
+      ],
+      "human_ortholog": "hMnSOD"
+    },
+    "TcTR": {
+      "pdb": "1BZL",
+      "organism": "Trypanosoma cruzi",
+      "target": "Trypanothione Reductase",
+      "category": "parasite",
+      "keep_cofactors": [
+        "FAD"
+      ],
+      "ligand_resnames": [
+        "TS2",
+        "TS4"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [
+        "CYS52",
+        "CYS57",
+        "HIS461"
+      ],
+      "grid_size": [
+        25,
+        25,
+        25
+      ],
+      "human_ortholog": "hGR"
+    },
+    "hCatL": {
+      "pdb": "2XU3",
+      "organism": "Homo sapiens",
+      "target": "Cathepsin L",
+      "category": "human",
+      "keep_cofactors": [],
+      "ligand_resnames": [],
+      "grid_strategy": "residue_center",
+      "grid_fallback_residues": [
+        "CYS25",
+        "HIS163",
+        "ASN187"
+      ],
+      "grid_size": [
+        22,
+        22,
+        22
+      ],
+      "human_ortholog": null
+    },
+    "hDHODH": {
+      "pdb": "1D3H",
+      "organism": "Homo sapiens",
+      "target": "DHODH",
+      "category": "human",
+      "keep_cofactors": [
+        "FMN"
+      ],
+      "ligand_resnames": [
+        "BRE"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [],
+      "grid_size": [
+        25,
+        25,
+        25
+      ],
+      "human_ortholog": null
+    },
+    "hGR": {
+      "pdb": "3DJJ",
+      "organism": "Homo sapiens",
+      "target": "Glutathione Reductase",
+      "category": "human",
+      "keep_cofactors": [
+        "FAD"
+      ],
+      "ligand_resnames": [
+        "GSH",
+        "GTX",
+        "GDS"
+      ],
+      "grid_strategy": "ligand_center",
+      "grid_fallback_residues": [
+        "CYS58",
+        "CYS63"
+      ],
+      "grid_size": [
+        25,
+        25,
+        25
+      ],
+      "human_ortholog": null
+    },
+    "hMnSOD": {
+      "pdb": "1LUV",
+      "organism": "Homo sapiens",
+      "target": "Mn-Superoxide Dismutase",
+      "category": "human",
+      "keep_cofactors": [
+        "MN"
+      ],
+      "ligand_resnames": [],
+      "grid_strategy": "metal_center",
+      "grid_fallback_residues": [
+        "HIS26",
+        "HIS74",
+        "ASP159",
+        "HIS163"
+      ],
+      "grid_size": [
+        22,
+        22,
+        22
+      ],
+      "human_ortholog": null
+    }
+  }
+}

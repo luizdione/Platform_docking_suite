@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this software in authorized research, please cite it as below."
+title: "Docking Suite: an umbrella platform for structure-based antiparasitic screening"
+abstract: >-
+  A campaign-oriented platform for protein–ligand virtual screening of antiparasitic
+  targets. Each campaign declares its own targets, ligands, target–ligand pairs and
+  protocols in a versioned registry, so that the peculiarities of a given system
+  (oligomeric state required by the site, mandatory cofactor, macrocycle flexibility,
+  reference co-crystal for redocking) are configuration rather than assumptions baked
+  into scripts. It wraps AutoDock Vina, OpenMM molecular dynamics, HADDOCK3 restraint
+  docking and Boltz-2 structure prediction behind one engine interface, with ADMET,
+  toxicity and drug-design modules and a Flask dashboard. The repository contains code
+  and declarative configuration only; no research results are distributed with it.
+type: software
+authors:
+  - family-names: "De-Melo"
+    given-names: "Luiz Dione Barbosa"
+    orcid: "https://orcid.org/0000-0003-2445-9943"
+    email: "luiz.melo@ifrj.edu.br"
+    affiliation: >-
+      Instituto Federal de Educação, Ciência e Tecnologia do Rio de Janeiro (IFRJ),
+      Rio de Janeiro, Brazil
+repository-code: "https://github.com/luizdione/Platform_docking_suite"
+url: "https://github.com/luizdione/Platform_docking_suite"
+version: "2.7.0"
+date-released: "2026-11-06"
+license-url: "https://github.com/luizdione/Platform_docking_suite/blob/main/LICENSE"
+keywords:
+  - molecular docking
+  - virtual screening
+  - molecular dynamics
+  - antiparasitic drug discovery
+  - trypanosomatids
+  - trypanothione reductase
+  - structure-based drug design
+  - reproducibility
+  - provenance

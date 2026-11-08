@@ -1,0 +1,34 @@
+{
+  "schema_version": "2.0",
+  "id": "DEMO02__tubulin_ab__colchicina",
+  "campaign": "DEMO02",
+  "target": "tubulin_ab",
+  "ligand": "colchicina",
+  "assembly_state": {
+    "required": "dimer",
+    "rationale": "O sitio da colchicina fica na interface intradimero alfa/beta: nao existe no monomero."
+  },
+  "experimental_kd": [],
+  "engines": {
+    "affinity_estimator_reliable": false,
+    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+  },
+  "validation": {
+    "rmsd_function": "CalcRMS",
+    "reference_pdb": "1SA0",
+    "reference_ligand_resname": "CN2",
+    "verdict_rule": "Redocking valido quando a melhor pose entre as geradas fica abaixo de 2,0 A de RMSD da pose cristalografica. Ler so o model_0 e estatistica de ordem disfarcada de resposta.",
+    "training_leakage": {
+      "held_out": false,
+      "rationale": "1SA0 foi depositado em 2004 e esta no treino de qualquer preditor atual. Para redocking classico (Vina) isso e irrelevante; para co-dobramento o acerto nao prova generalizacao."
+    }
+  },
+  "control": {
+    "type": "positive",
+    "expected_binding": true,
+    "rationale": "A colchicina liga o sitio da colchicina -- e o co-cristal 1SA0 (analogo DAMA-colchicina, CN2). Braco positivo: se nem este par reproduz a pose, a caixa ou a preparacao estao erradas e nenhum negativo significa nada."
+  },
+  "protocols": {
+    "docking": "vina_exh32"
+  }
+}

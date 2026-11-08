@@ -1,0 +1,92 @@
+# ==========================================================================
+# Docking Suite — .gitignore
+#
+# Regra que este arquivo existe para sustentar: **resultado não mora no
+# repositório.** Toda saída da plataforma (pose, trajetória, figura, log,
+# relatório) vai para a árvore de dados apontada por $DOCKING_DATA_DIR, fora
+# daqui. O que é versionado é código, o registry declarativo e documentação.
+#
+# O registry É versionado de propósito: `registry/targets/*.json` e
+# `registry/ligands/*.json` descrevem estruturas públicas do PDB e compostos
+# publicados — são a configuração da plataforma, não dado de pesquisa.
+# ==========================================================================
+
+# --- Árvore de dados (default quando DOCKING_DATA_DIR não está definida) ---
+docking_data/
+docking_project/
+
+# --- Estruturas e trajetórias: pesadas e são dado, não código ---
+*.pdb
+*.pdbqt
+*.mol2
+*.sdf
+*.cif
+*.dcd
+*.xtc
+*.trr
+*.chk
+*.checkpoint
+*.h5
+*.npz
+
+# --- Diretórios de saída, onde quer que apareçam ---
+results/
+figures/
+reports/
+runs/
+proteins/
+dist_web/
+validation/
+.pdb_cache/
+
+# --- Ambientes / caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+venv/
+.venv/
+env/
+ENV/
+.idea/
+.vscode/
+
+# --- Binários de terceiros (baixe você; ver registry/toolchain.json) ---
+vina.exe
+*.exe
+*.dll
+*.so
+*.dylib
+
+# --- Logs / PIDs / estado de execução ---
+*.log
+*.pid
+*.runlog
+chain_log.txt
+venv_info.json
+replica_state.json
+replica_status.json
+gpu_gate_status.json
+
+# --- Segredos e configuração local: NUNCA versionar ---
+.env
+*.env
+*.hostinger.json
+.hostinger.json
+.zenodo.json
+*_credentials.json
+*_secret*
+
+# --- Rascunhos e backups de edição ---
+*.bak
+*.bak_*
+*.before_*
+*.partial_*
+*.orig
+*.rej
+
+# --- Lixo de serialização JS ([object Object]) ---
+**/_object_Object_/

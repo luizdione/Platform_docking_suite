@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "id": "DEMO01",
+  "sigla": "DEMO01",
+  "nome_especifico": "Exemplo: triagem de seletividade antiparasitaria",
+  "titulo": "Reference screen -- published antiparasitic naphthoquinones against trypanosomatid enzymes and their human counterparts",
+  "status": "example",
+  "description": "Campanha de EXEMPLO, distribuida com a plataforma. Usa apenas alvos de PDB publicos e ligantes de referencia publicados, para que o repositorio seja executavel sem nenhum dado de pesquisa. Demonstra o padrao central da plataforma: cada enzima do parasito e docada ao lado da contraparte humana, e a seletividade e lida da diferenca.",
+  "targets": [
+    "TcTR",
+    "LiTR",
+    "TcFeSOD",
+    "TcCruzain",
+    "LmDHODH",
+    "LmPTR1",
+    "hGR",
+    "hMnSOD",
+    "hCatL",
+    "hDHODH"
+  ],
+  "primary_targets": [
+    "TcTR",
+    "LiTR",
+    "TcFeSOD",
+    "TcCruzain",
+    "LmDHODH",
+    "LmPTR1"
+  ],
+  "counter_targets": [
+    "hGR",
+    "hMnSOD",
+    "hCatL",
+    "hDHODH"
+  ],
+  "ligands": [
+    "beta-lapachone",
+    "plumbagin"
+  ],
+  "default_ligand": "beta-lapachone",
+  "protocols": {
+    "docking": "vina_exh32",
+    "md": "md_ff14sb_hmr_300k",
+    "structure": "boltz2_5samples",
+    "restraint_docking": "haddock3_default"
+  },
+  "ui": {
+    "label": "DEMO01 - triagem antiparasitaria (exemplo)",
+    "pares_de_seletividade": [
+      [
+        "TcTR",
+        "hGR"
+      ],
+      [
+        "LiTR",
+        "hGR"
+      ],
+      [
+        "TcFeSOD",
+        "hMnSOD"
+      ],
+      [
+        "TcCruzain",
+        "hCatL"
+      ],
+      [
+        "LmDHODH",
+        "hDHODH"
+      ]
+    ]
+  },
+  "paths": {
+    "_note": "Sem data_root declarado de proposito: a raiz vem de $DOCKING_DATA_DIR. Resultado nao mora no repositorio."
+  }
+}

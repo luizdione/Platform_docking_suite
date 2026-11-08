@@ -1,0 +1,34 @@
+{
+  "schema_version": "2.0",
+  "id": "DEMO02",
+  "sigla": "DEMO02",
+  "nome_especifico": "Exemplo: cross-docking de especificidade (sitio da colchicina)",
+  "titulo": "Reference specificity matrix -- colchicine-site ligand versus actin-binding natural products on tubulin",
+  "status": "example",
+  "description": "Segunda campanha de EXEMPLO. Mostra para que serve o bloco `control` do par: a colchicina no sitio da colchicina da tubulina e o braco POSITIVO (deve reproduzir a pose do co-cristal 1SA0), e os produtos naturais que ligam actina, nao tubulina, sao os bracos NEGATIVOS. Sem os dois bracos, 'afinidade fraca' fica indistinguivel de 'controle que funcionou'.",
+  "targets": [
+    "tubulin_ab"
+  ],
+  "primary_targets": [
+    "tubulin_ab"
+  ],
+  "counter_targets": [],
+  "ligands": [
+    "colchicina",
+    "citocalasina-d",
+    "jasplaquinolida",
+    "latrunculina-a",
+    "latrunculina-b"
+  ],
+  "default_ligand": "colchicina",
+  "protocols": {
+    "docking": "vina_exh32",
+    "structure": "boltz2_5samples"
+  },
+  "ui": {
+    "label": "DEMO02 - matriz de especificidade (exemplo)"
+  },
+  "paths": {
+    "_note": "Raiz de dados vem de $DOCKING_DATA_DIR."
+  }
+}

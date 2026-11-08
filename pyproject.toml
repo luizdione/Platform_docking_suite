@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docking-suite"
+version = "2.7.0"
+description = "Umbrella platform for structure-based antiparasitic screening: campaign registry, Vina/OpenMM/HADDOCK3/Boltz-2 engines, ADMET and toxicity modules, and a Flask dashboard."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Luiz Dione Barbosa De-Melo", email = "luiz.melo@ifrj.edu.br" },
+]
+keywords = [
+  "molecular-docking", "virtual-screening", "molecular-dynamics",
+  "antiparasitic", "trypanosomatids", "structure-based-drug-design",
+]
+classifiers = [
+  # Licenca propria (uso comercial proibido; pesquisa so com autorizacao previa).
+  # Nao existe classificador OSI que descreva isso -- por isso "Other/Proprietary".
+  "License :: Other/Proprietary License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Chemistry",
+  "Operating System :: OS Independent",
+]
+
+# Dependencias minimas para INSTALAR os modulos expostos abaixo. O ambiente
+# completo da plataforma (RDKit, OpenMM, Open Babel, Meeko, Vina) nao e
+# pip-instalavel de forma confiavel em toda plataforma -- ver requirements.txt
+# e setup_bioinfo_env.bat.
+dependencies = []
+
+[project.optional-dependencies]
+# O que o dashboard e os modulos de analise realmente usam.
+platform = [
+  "flask>=2.3.0",
+  "flask-cors>=6.0.0",
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "matplotlib>=3.7",
+  "pandas>=2.0",
+  "biopython>=1.81",
+  "packaging>=23.0",
+]
+test = ["pytest>=8.0"]
+
+[project.urls]
+Homepage = "https://github.com/luizdione/Platform_docking_suite"
+Repository = "https://github.com/luizdione/Platform_docking_suite"
+Issues = "https://github.com/luizdione/Platform_docking_suite/issues"
+
+# Convencao FLAT do repo: modulos .py soltos na raiz, sem pacote aninhado.
+# Apenas os dois modulos de analise de HADDOCK sao expostos como pacote
+# instalavel (`pip install -e .`), porque outros projetos os importam. O resto da
+# plataforma roda a partir da arvore, nao como biblioteca.
+[tool.setuptools]
+py-modules = ["haddock_analysis", "haddock_config"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

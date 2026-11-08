@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "id": "DEMO02__tubulin_ab__latrunculina-a",
+  "campaign": "DEMO02",
+  "target": "tubulin_ab",
+  "ligand": "latrunculina-a",
+  "assembly_state": {
+    "required": "dimer",
+    "rationale": "A caixa e a do sitio da colchicina, na interface intradimero."
+  },
+  "experimental_kd": [],
+  "engines": {
+    "affinity_estimator_reliable": false,
+    "_note": "Exemplo: nenhuma afinidade medida foi declarada para este par, logo o score do motor nao e calibrado aqui. Declare experimental_kd[].state antes de tratar o score como afinidade."
+  },
+  "control": {
+    "type": "negative",
+    "expected_binding": false,
+    "rationale": "Latrunculina A liga a fenda do nucleotideo da ACTINA (co-cristal 1ESV). Sitio inexistente na tubulina."
+  },
+  "protocols": {
+    "docking": "vina_exh32"
+  }
+}

@@ -1,0 +1,64 @@
+# ==========================================================================
+# Docking Suite — .dockerignore
+#
+# O Dockerfile faz `COPY . .`. Sem este arquivo, qualquer árvore de dados que
+# estivesse ao lado do código entraria na imagem — e uma imagem publicada como
+# pacote é distribuição. Por isso o que é DADO fica fora, explicitamente.
+#
+# Em runtime, monte os dados num volume e aponte DOCKING_DATA_DIR para ele:
+#   docker run -e DOCKING_DATA_DIR=/data -v /host/dados:/data IMG ...
+# ==========================================================================
+
+# --- Dados e resultados: nunca na imagem ---
+docking_data/
+docking_project/
+results/
+figures/
+reports/
+runs/
+proteins/
+validation/
+dist_web/
+dist_web_*
+.pdb_cache/
+
+# --- Estruturas e trajetórias ---
+*.pdb
+*.pdbqt
+*.mol2
+*.sdf
+*.cif
+*.dcd
+*.xtc
+*.trr
+*.chk
+*.h5
+*.npz
+
+# --- Segredos e config local ---
+.env
+*.env
+*.hostinger.json
+.zenodo.json
+venv_info.json
+
+# --- Ruído de repositório / ambiente ---
+.git
+.gitignore
+.github
+.idea
+.vscode
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+*.egg-info
+venv
+.venv
+*.zip
+*.tgz
+*.log
+
+# --- Não precisa rodar dentro da imagem ---
+tests/
