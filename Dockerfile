@@ -47,6 +47,20 @@ RUN wget -qL "https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v$
     chmod +x /usr/local/bin/vina && \
     /usr/local/bin/vina --version
 
+# --- Metadados OCI ------------------------------------------------------------
+# `image.source` e o que faz o GitHub LIGAR o pacote a este repositorio
+# automaticamente, e com isso herdar a visibilidade dele a cada push. Sem o
+# label, o pacote nasce orfao e privado, e o vinculo tem de ser feito a mao na
+# pagina do pacote -- foi o que aconteceu na primeira publicacao.
+LABEL org.opencontainers.image.source="https://github.com/luizdione/Platform_docking_suite" \
+      org.opencontainers.image.title="Docking Suite" \
+      org.opencontainers.image.description="Umbrella platform for structure-based antiparasitic screening. Code and configuration only - no research results." \
+      org.opencontainers.image.authors="Luiz Dione Barbosa De-Melo <luiz.melo@ifrj.edu.br>" \
+      org.opencontainers.image.url="https://github.com/luizdione/Platform_docking_suite" \
+      org.opencontainers.image.documentation="https://github.com/luizdione/Platform_docking_suite#readme" \
+      org.opencontainers.image.licenses="LicenseRef-DockingSuite-1.0"
+
+
 # --- Codigo da plataforma -------------------------------------------------------
 COPY . .
 
