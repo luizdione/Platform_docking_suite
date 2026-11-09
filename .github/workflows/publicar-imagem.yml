@@ -1,0 +1,126 @@
+# Constroi e publica a imagem no GHCR, nos runners do GitHub.
+#
+# Por que por workflow, e nao `docker push` da maquina do autor:
+#   - usa o GITHUB_TOKEN da propria Action, entao nao depende de escopo de token local;
+#   - nao consome RAM nem disco da maquina (a imagem passa de 5 GB);
+#   - o GitHub LIGA o pacote a este repositorio pelo label
+#     `org.opencontainers.image.source`, que o Dockerfile ja declara, e com o vinculo o
+#     pacote herda a visibilidade do repositorio.
+#
+# Regra de tag, para a tag de versao nunca mentir:
+#   push na main        -> `main` e `sha-<curto>`           (ponta de desenvolvimento)
+#   release publicada   -> a versao da tag e `latest`       (o que foi publicado)
+#   disparo manual      -> SO `sha-<curto>` do ref pedido   (nunca versao, nunca latest)
+#
+# O disparo manual nao aplica versao de proposito. Num repositorio irmao, um disparo
+# manual reconstruiu `:1.0.0` a partir da main (o checkout cai no branch padrao, nao na
+# tag), e a tag de versao passou a servir conteudo que nao era aquela versao. Aqui o
+# disparo pede o ref explicitamente e carimba apenas o sha.
+
+name: publicar imagem no GHCR
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - Dockerfile
+      - requirements.txt
+      - .dockerignore
+      - .github/workflows/publicar-imagem.yml
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Commit, tag ou branch a construir (vazio = a ponta da main)"
+        required: false
+        default: ""
+
+concurrency:
+  group: imagem-ghcr
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # A imagem passa de 5 GB (base CUDA + dependencias + Vina). O runner comeca com
+      # ~14 GB livres, o que nao basta com folga; isto devolve mais de 20 GB.
+      - name: Liberar espaco em disco
+        run: |
+          echo "antes:"; df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" || true
+          sudo apt-get clean
+          echo "depois:"; df -h / | tail -1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Em release, o default do checkout (github.sha) ja e o commit da tag.
+          # Em disparo manual, o default seria a ponta da main: por isso o input.
+          ref: ${{ github.event.inputs.ref || github.ref }}
+          fetch-depth: 1
+
+      - name: Confirmar o que sera construido
+        run: |
+          echo "evento: ${{ github.event_name }}"
+          echo "ref pedido: ${{ github.event.inputs.ref || github.ref }}"
+          echo "commit: $(git rev-parse HEAD)"
+          echo "VERSION no repositorio: $(cat VERSION 2>/dev/null || echo '(sem arquivo)')"
+
+      - name: Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Autenticar no GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Calcular nome e tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # metadata-action poe o nome em minusculas, que o GHCR exige.
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=sha,format=short
+            type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
+            type=raw,value=latest,enable=${{ github.event_name == 'release' }}
+          # Os labels fixos (source, title, description, licenses) vem do Dockerfile e
+          # devem prevalecer: aqui so entram os dois que dependem do build.
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created={{commit_date 'YYYY-MM-DDTHH:mm:ssZ'}}
+
+      - name: Construir e publicar
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # Sem attestation: cada uma cria um manifesto extra que aparece como versao
+          # "sem tag" na pagina do pacote. O commit fica registrado no label
+          # `image.revision`, que e o que se consulta na pratica.
+          provenance: false
+          sbom: false
+
+      - name: Conferir o vinculo e os rotulos da imagem publicada
+        run: |
+          primeira=$(printf '%s\n' "${{ steps.meta.outputs.tags }}" | head -1)
+          echo "inspecionando $primeira"
+          docker buildx imagetools inspect "$primeira" --format '{{json .Image.Config.Labels}}' \
+            | tr ',' '\n' | grep -iE 'image\.(source|revision|title|description|licenses)' || true
+          echo
+          echo "Se 'image.source' aparecer acima, o GitHub liga o pacote ao repositorio"
+          echo "e a visibilidade passa a ser herdada dele."
