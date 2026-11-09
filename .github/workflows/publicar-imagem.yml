@@ -111,9 +111,14 @@ jobs:
           push: false
           load: true
           tags: docking-suite:ci
-          labels: ${{ steps.meta.outputs.labels }}
+          # Os mesmos labels do passo de publicacao, para o portao inspecionar uma
+          # imagem igual a que vai ao registro. Os labels automaticos do
+          # metadata-action vencem os do Dockerfile e fazem a licenca sair como
+          # `NOASSERTION`, entao nao se usa a saida dele aqui.
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=min
           provenance: false
           sbom: false
 
