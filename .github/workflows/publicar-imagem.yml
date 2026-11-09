@@ -43,7 +43,11 @@ on:
         default: ""
 
 concurrency:
-  group: imagem-ghcr
+  # Grupo POR EVENTO, nao um grupo so. O GitHub mantem apenas um run *pendente* por
+  # grupo: com um grupo unico, um release que ficasse pendente atras de um build de push
+  # era DESCARTADO em vez de esperar. Separando por evento, um push nunca descarta um
+  # release.
+  group: imagem-ghcr-${{ github.event_name }}
   cancel-in-progress: false
 
 jobs:
@@ -101,6 +105,26 @@ jobs:
             type=sha,format=short
             type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
             type=raw,value=latest,enable=${{ github.event_name == 'release' }}
+          # Os labels e as anotacoes TEM de ser declarados AQUI, no metadata-action, e
+          # nao no passo de build. Sem isto o metadata-action os gera sozinho a partir do
+          # repositorio -- `title` do nome do repo e `licenses` da deteccao do GitHub,
+          # que nao reconhece licenca propria e devolve NOASSERTION -- e o
+          # build-push-action os le das variaveis DOCKER_METADATA_OUTPUT_* que este passo
+          # exporta, NAO do `labels:` que recebe. Foi por isso que declarar no build nao
+          # resolveu: o que vem daqui prevalece. Valores iguais aos do Dockerfile.
+          labels: |
+            org.opencontainers.image.title=Docking Suite
+            org.opencontainers.image.description=Umbrella platform for structure-based antiparasitic screening. Code and configuration only - no research results.
+            org.opencontainers.image.licenses=LicenseRef-DockingSuite-1.0
+            org.opencontainers.image.source=https://github.com/luizdione/Platform_docking_suite
+            org.opencontainers.image.url=https://github.com/luizdione/Platform_docking_suite
+            org.opencontainers.image.documentation=https://github.com/luizdione/Platform_docking_suite#readme
+            org.opencontainers.image.authors=Luiz Dione Barbosa De-Melo <luiz.melo@ifrj.edu.br>
+          annotations: |
+            org.opencontainers.image.title=Docking Suite
+            org.opencontainers.image.description=Umbrella platform for structure-based antiparasitic screening. Code and configuration only - no research results.
+            org.opencontainers.image.licenses=LicenseRef-DockingSuite-1.0
+            org.opencontainers.image.source=https://github.com/luizdione/Platform_docking_suite
 
       # Build LOCAL primeiro, sem push: a imagem tem de ser inspecionada ANTES de
       # existir no registro. Publicar e distribuir, e nao se desfaz.
