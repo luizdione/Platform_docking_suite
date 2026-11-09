@@ -232,6 +232,22 @@ The image carries code and dependencies, plus AutoDock Vina. It carries **no dat
 written there without a volume dies with the container. `DOCKING_DATA_DIR` defaults to
 `/data` inside the image.
 
+### How the image is published
+
+By GitHub Actions — `.github/workflows/publish-image.yml`. Nothing is published on an
+ordinary commit: the workflow runs either from **Run workflow** (manual) or when a `v*`
+version tag is pushed.
+
+Before pushing anything, the workflow builds the image locally on the runner and asserts
+that it carries **no research data** — it exports the filesystem and fails the job if any
+structure or trajectory file, or any data directory, appears under `/app`. Then it
+smoke-tests the image by running `vina --version` and `registry.py` inside it. Only after
+both checks does it push.
+
+```bash
+git tag v2.7.1 && git push origin v2.7.1      # publishes 2.7.1 and latest
+```
+
 ---
 
 ## Documentation
