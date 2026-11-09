@@ -101,11 +101,6 @@ jobs:
             type=sha,format=short
             type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
             type=raw,value=latest,enable=${{ github.event_name == 'release' }}
-          # Os labels fixos (source, title, description, licenses) vem do Dockerfile e
-          # devem prevalecer: aqui so entram os dois que dependem do build.
-          labels: |
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.created={{commit_date 'YYYY-MM-DDTHH:mm:ssZ'}}
 
       # Build LOCAL primeiro, sem push: a imagem tem de ser inspecionada ANTES de
       # existir no registro. Publicar e distribuir, e nao se desfaz.
@@ -155,9 +150,17 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          # Os labels fixos (source, title, description, licenses) ficam no Dockerfile e
+          # devem prevalecer. NAO usar `steps.meta.outputs.labels`: o metadata-action
+          # acrescenta labels automaticos aos que recebe, e na primeira execucao eles
+          # sobrescreveram a licenca do Dockerfile por `NOASSERTION`.
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # mode=min, e nao max: a imagem passa de 5 GB e o cache de Actions tem 10 GB
+          # por repositorio; exportar toda camada intermediaria estoura e passa a
+          # despejar cache util.
+          cache-to: type=gha,mode=min
           # Sem attestation: cada uma cria um manifesto extra que aparece como versao
           # "sem tag" na pagina do pacote. O commit fica registrado no label
           # `image.revision`, que e o que se consulta na pratica.
