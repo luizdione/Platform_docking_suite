@@ -12,6 +12,12 @@
 #   release publicada   -> a versao da tag e `latest`       (o que foi publicado)
 #   disparo manual      -> SO `sha-<curto>` do ref pedido   (nunca versao, nunca latest)
 #
+# Antes de publicar, o job CONFERE a imagem: build local, exporta o sistema de
+# arquivos e falha se aparecer arquivo de estrutura/trajetoria ou arvore de dados sob
+# /app, depois roda `vina --version` e `registry.py` dentro do conteiner. So entao da
+# push. O .dockerignore ja deveria filtrar; o portao existe porque uma imagem no
+# registro ja esta distribuida.
+#
 # O disparo manual nao aplica versao de proposito. Num repositorio irmao, um disparo
 # manual reconstruiu `:1.0.0` a partir da main (o checkout cai no branch padrao, nao na
 # tag), e a tag de versao passou a servir conteudo que nao era aquela versao. Aqui o
@@ -43,6 +49,7 @@ concurrency:
 jobs:
   publicar:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     permissions:
       contents: read
       packages: write
@@ -100,7 +107,49 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created={{commit_date 'YYYY-MM-DDTHH:mm:ssZ'}}
 
-      - name: Construir e publicar
+      # Build LOCAL primeiro, sem push: a imagem tem de ser inspecionada ANTES de
+      # existir no registro. Publicar e distribuir, e nao se desfaz.
+      - name: Construir (sem publicar ainda)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: docking-suite:ci
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          sbom: false
+
+      # PORTAO. A imagem carrega CODIGO, nao dado. Se um arquivo de estrutura ou de
+      # trajetoria entrar, o job falha aqui e nada e publicado. O .dockerignore ja
+      # deveria ter filtrado -- este passo existe porque "deveria" nao basta quando o
+      # erro e irreversivel: uma vez no registro, foi distribuido.
+      - name: Conferir que a imagem nao carrega dado de pesquisa
+        run: |
+          set -euo pipefail
+          cid=$(docker create docking-suite:ci)
+          trap 'docker rm -f "$cid" >/dev/null 2>&1 || true' EXIT
+          docker export "$cid" | tar -t | grep '^app/' > /tmp/app.txt
+          echo "arquivos sob /app: $(wc -l < /tmp/app.txt)"
+
+          if grep -Ei '^app/.*\.(pdb|pdbqt|mol2|sdf|cif|dcd|xtc|trr|chk|h5|npz)$' /tmp/app.txt; then
+            echo "FALHA: a imagem carrega dado de estrutura ou trajetoria"; exit 1
+          fi
+          if grep -E '^app/(docking_data|docking_project|results|figures|reports|runs|proteins)/' /tmp/app.txt; then
+            echo "FALHA: a imagem carrega uma arvore de dados"; exit 1
+          fi
+          echo "OK: so codigo e configuracao."
+
+      - name: Rodar a imagem (fumaca)
+        run: |
+          set -euo pipefail
+          docker run --rm --entrypoint vina docking-suite:ci --version
+          docker run --rm docking-suite:ci registry.py | tail -3
+
+      # Reaproveita as camadas do cache do Buildx: isto e push, nao um segundo build.
+      - name: Publicar
         uses: docker/build-push-action@v6
         with:
           context: .

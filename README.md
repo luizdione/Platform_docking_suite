@@ -234,19 +234,29 @@ written there without a volume dies with the container. `DOCKING_DATA_DIR` defau
 
 ### How the image is published
 
-By GitHub Actions — `.github/workflows/publish-image.yml`. Nothing is published on an
-ordinary commit: the workflow runs either from **Run workflow** (manual) or when a `v*`
-version tag is pushed.
+By GitHub Actions — `.github/workflows/publicar-imagem.yml`, which runs on the GitHub
+runners rather than on a workstation.
 
-Before pushing anything, the workflow builds the image locally on the runner and asserts
-that it carries **no research data** — it exports the filesystem and fails the job if any
-structure or trajectory file, or any data directory, appears under `/app`. Then it
-smoke-tests the image by running `vina --version` and `registry.py` inside it. Only after
-both checks does it push.
+The tagging rule exists so that a version tag never lies about its contents:
 
-```bash
-git tag v2.7.1 && git push origin v2.7.1      # publishes 2.7.1 and latest
-```
+| Event | Tags applied |
+|---|---|
+| push to `main` touching the Dockerfile or dependencies | `main`, `sha-<short>` |
+| **published release** | the version from the tag, and `latest` |
+| manual run | **only** `sha-<short>` of the ref you ask for |
+
+A manual run deliberately applies no version and does not move `latest`: `checkout`
+defaults to the default branch, so a manual run asking for a version tag would rebuild
+that tag from `main` and the tag would then serve content that is not that version.
+
+Before anything is pushed, the job **checks the image**: it builds locally, exports the
+filesystem, and fails if any structure or trajectory file (`.pdb`, `.pdbqt`, `.dcd`,
+`.cif`, `.npz`, …) or any data directory appears under `/app`; then it runs
+`vina --version` and `registry.py` inside the container. Only then does it push.
+`.dockerignore` should already have filtered those paths — the gate exists because an
+image in a registry has already been distributed.
+
+To publish a version, create a release for the tag; the workflow does the rest.
 
 ---
 
